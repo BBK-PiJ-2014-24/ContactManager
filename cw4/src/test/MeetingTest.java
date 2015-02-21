@@ -25,9 +25,9 @@ public class MeetingTest {
 		
 		// Set Date()
 		// ----------
-		Calendar cal = new GregorianCalendar(2014, 8, 24, 12, 00);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yy hh:mm");
-		System.out.println("Check Date: " + sdf.format(cal.getTime()));		
+		Calendar cal = new GregorianCalendar(2014, 8, 24, 12, 05);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+		//System.out.println("Check Date: " + sdf.format(cal.getTime()));		
 		
 		// Set Contacts
 		// ------------
@@ -43,8 +43,9 @@ public class MeetingTest {
 		ContactSet.add(c3);
 		
 		Meeting m = new MeetingImpl(ContactSet, cal);
-		m.id = 1234;
-		assertEquals("getID() Check: ", m.getId(), 1234);
+		//m.id = 1234;
+		//assertEquals("getID() Check: ", m.getId(), 1234);
+		assertEquals("getDate() Check: ", m.getDate(),cal);
 		
 		
 		
