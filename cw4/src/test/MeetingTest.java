@@ -41,11 +41,15 @@ public class MeetingTest {
 		ContactSet.add(c1);
 		ContactSet.add(c2);
 		ContactSet.add(c3);
-		
 		Meeting m = new MeetingImpl(ContactSet, cal);
+		
+		
+		// tests
+		// -----
 		//m.id = 1234;
 		//assertEquals("getID() Check: ", m.getId(), 1234);
 		assertEquals("getDate() Check: ", m.getDate(),cal);
+		assertEquals("getContacts() Check: ", m.getContacts(), ContactSet);
 		
 		
 		
