@@ -16,7 +16,7 @@ public interface ContactManager { /**
 * @throws IllegalArgumentException if the meeting is set for a time in the past,
 * of if any contact is unknown / non-existent
 */
-//int addFutureMeeting(Set<Contact> contacts, Calendar date); 
+int addFutureMeeting(Set<Contact> contacts, Calendar date); 
 
 /**
 * Returns the PAST meeting with the requested ID, or null if it there is none. *
