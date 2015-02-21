@@ -52,7 +52,6 @@ public class MeetingTest {
 		assertEquals("getContacts() Check: ", m.getContacts(), ContactSet);
 		
 		
-		
 	}
 
 }
