@@ -8,7 +8,7 @@ package iinterfaces;
 public interface Contact { /**
 * Returns the ID of the contact. *
 * @return the ID of the contact. */
-//int getId();
+int getId();
 /**
 * Returns the name of the contact. *
 * @return the name of the contact. */
