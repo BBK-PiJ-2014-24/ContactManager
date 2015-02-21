@@ -10,7 +10,7 @@ public interface Meeting {
 /**
 * Returns the id of the meeting. *
 * @return the id of the meeting. */
-//int getId();
+int getId();
 /**
 * Return the date of the meeting. *
 * @return the date of the meeting. */
