@@ -21,5 +21,5 @@ Calendar getDate();
 * just two people: the user and the contact) and may contain an
 * arbitraty number of them. *
 * @return the details of people that attended the meeting. */
-//Set<Contact> getContacts(); 
+Set<Contact> getContacts(); 
 }
