@@ -7,7 +7,7 @@ public class ContactImpl implements Contact{
 	// Fields
 	// ------
 	
-	private int id;
+	public int id = 1234;
 	private String name;
 	private String notes;
 	
@@ -39,5 +39,8 @@ public class ContactImpl implements Contact{
 		notes = n;
 	}
 	
+	public int getId(){
+		return id;
+	}
 	
 }
