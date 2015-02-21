@@ -21,8 +21,8 @@ public class ContactTest {
 		
 		c.setName("Harriet");  
 		c.addNotes("Drinks White Wine");
-		assertEquals("setName Check", "Harriet", c.getName());
-		assertEquals("Drinks White Wine", c.getNotes());
+		assertEquals("setName() Check", c.getName(), "Harriet");
+		assertEquals("getName() Check", c.getNotes(), "Drinks White Wine");
 		
 		
 		

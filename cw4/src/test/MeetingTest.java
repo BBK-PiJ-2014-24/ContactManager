@@ -16,8 +16,6 @@ import java.util.Set;
 import java.util.HashSet;
 
 
-
-
 public class MeetingTest {
 
 	@Test
@@ -47,9 +45,9 @@ public class MeetingTest {
 		// tests
 		// -----
 		//m.id = 1234;
-		//assertEquals("getID() Check: ", m.getId(), 1234);
-		assertEquals("getDate() Check: ", m.getDate(),cal);
-		assertEquals("getContacts() Check: ", m.getContacts(), ContactSet);
+		//assertEquals("getID() Check: ", 1234, m.getId());
+		assertEquals("getDate() Check: ", cal, m.getDate());
+		assertEquals("getContacts() Check: ", ContactSet, m.getContacts());
 		
 		
 	}
