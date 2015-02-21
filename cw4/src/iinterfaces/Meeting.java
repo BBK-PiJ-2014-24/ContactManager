@@ -14,7 +14,7 @@ int getId();
 /**
 * Return the date of the meeting. *
 * @return the date of the meeting. */
-//Calendar getDate();
+Calendar getDate();
 /**
 * Return the details of people that attended the meeting. *
 * The list contains a minimum of one contact (if there were
