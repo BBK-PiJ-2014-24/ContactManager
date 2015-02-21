@@ -35,7 +35,7 @@ public class ContactImpl implements Contact{
 		return notes;
 	}
 	
-	public void setNotes(String n){
+	public void addNotes(String n){
 		notes = n;
 	}
 	
