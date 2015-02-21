@@ -16,11 +16,15 @@ public class ContactTest {
 		ContactImpl c = new ContactImpl("Harry", "He Likes A Drink");
 		assertEquals("getName Check: ", "Harry", c.getName());
 		assertEquals("getNotes Check: ", "He Likes A Drink", c.getNotes());
+		assertEquals("getID: ", 1234, c.getId());
 		
 		c.setName("Harriet");  
 		c.setNotes("Drinks White Wine");
 		assertEquals("setName Check", "Harriet", c.getName());
 		assertEquals("Drinks White Wine", c.getNotes());
+		
+		
+		
 		
 	}
 
