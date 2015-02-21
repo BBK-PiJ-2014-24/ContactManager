@@ -38,21 +38,26 @@ public class PastMeetingTest {
 		ContactSet.add(c1);
 		ContactSet.add(c2);
 		ContactSet.add(c3);
-		PastMeeting m = new PastMeetingImpl(ContactSet, cal);
+		
 		
 		// Set up Notes
 		// ------------
 		
 		String myNotes = "He Was Very Drunk";
-		
+		PastMeeting pm = new PastMeetingImpl(ContactSet, cal, myNotes);
 		
 		// tests
 		// -----
 		//m.id = 1234;
 		//assertEquals("getID() Check: ", m.getId(), 1234);
-		assertEquals("getDate() Check: ", cal, m.getDate());
-		assertEquals("getContacts() Check: ", ContactSet, m.getContacts());
-		assertEquals("getNotes() Check: ", myNotes, m.getNotes());
+		assertEquals("getDate() Check: ", cal, pm.getDate());
+		assertEquals("getContacts() Check: ", ContactSet, pm.getContacts());
+		assertEquals("getNotes() Check: ", myNotes, pm.getNotes());
+		
+		String myNotes2 = "He Was Very Drunk and Now he's in hospital";
+		pm.setNotes(myNotes2);
+		assertEquals("setNotes() Check: ", myNotes2, pm.getNotes());
+		
 		
 	}
 
