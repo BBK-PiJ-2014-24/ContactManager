@@ -5,9 +5,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 import iinterfaces.Contact;
+import iinterfaces.Meeting;
 import impls.ContactImpl;
-import impls.;
-
+import impls.MeetingImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,9 +42,9 @@ public class MeetingTest {
 		ContactSet.add(c2);
 		ContactSet.add(c3);
 		
-	//	Meeting m = MeetingImpl(ContactSet, cal);
-	//	m.id = 1234;
-	//	assertEquals("getID() Check: ", m.getId(), 1234);
+		Meeting m = new MeetingImpl(ContactSet, cal);
+		m.id = 1234;
+		assertEquals("getID() Check: ", m.getId(), 1234);
 		
 		
 		
