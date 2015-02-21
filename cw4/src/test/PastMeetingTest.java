@@ -44,7 +44,7 @@ public class PastMeetingTest {
 		// ------------
 		
 		String myNotes = "He Was Very Drunk";
-		PastMeeting pm = new PastMeetingImpl(ContactSet, cal, myNotes);
+		PastMeetingImpl pm = new PastMeetingImpl(ContactSet, cal, myNotes);
 		
 		// tests
 		// -----
