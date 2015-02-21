@@ -7,7 +7,7 @@ public class ContactImpl implements Contact{
 	// Fields
 	// ------
 	
-	public int id = 1234;
+	private int id = 1234;
 	private String name;
 	private String notes;
 	

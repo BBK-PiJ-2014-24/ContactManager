@@ -12,7 +12,7 @@ public class MeetingImpl implements Meeting {
 	// Fields
 	// ------
 	
-	public int id;
+	private int id;
 	private Calendar date;
 	private Set contactSet;
 	
