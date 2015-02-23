@@ -1,13 +1,18 @@
 package impls;
+
 /**
- * RETURNS a randomly generated ID number. For contact IDs, the ID ranges from 10,000-100,000.
- * For meeting ID's, the ID range is from 1,000,000 - 10,000,000.
- * @param idType Determines 
+ * A Class to Genrate IDs for Contacts and Meetings
  * @author snewnham
  *
  */
 public class IdGenerator {
-	
+	/**
+	 * RETURNS a randomly generated ID number. For contact IDs, the ID ranges from 10,000-100,000.
+	 * For meeting ID's, the ID range is from 1,000,000 - 10,000,000.
+	 * @param idType Determines the type of ID - "contactID" or "meetingID"
+	 * @return a randomly generated ID number
+	 * @author snewnham
+	 */
 	
 	public static int generateID(String idType){
 		
@@ -34,6 +39,4 @@ public class IdGenerator {
 		return x;
 		
 	}
-	
-
 }
