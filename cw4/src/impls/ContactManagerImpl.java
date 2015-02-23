@@ -43,6 +43,8 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		
 	}
 
+	// addFutureMeeting()
+	// ------------------
 	@Override
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException {
 		
