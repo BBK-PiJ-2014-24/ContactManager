@@ -75,14 +75,16 @@ public class ContactManagerTest {
 	// ----------------------------
 	public void testAddFutureMeeting() {
 		int id = cm.addFutureMeeting(contactSet, calFut);
-		assertEquals("test addFutureMeeting(): ", 1234, id);		
+		assertTrue("test addFutureMeeting() -  min id: ", id >= 1000000);	
+		assertTrue("test addFutureMeeting() - max id: ", id <= 10000000);	
 	}
-	
+	@Test
 	public void testEXAddFutureMeeting(){
 		ex.expect(IllegalArgumentException.class);
 		cm.addFutureMeeting(contactSet, calPast);
 	}
 	
+	@Test
 	// Tests for getFutureMeeting()
 	// ----------------------------
 	public void testGetFutureMeeting(){
