@@ -3,9 +3,11 @@ package test;
 import static org.junit.Assert.*;
 import iinterfaces.Contact;
 import iinterfaces.ContactManager;
+import iinterfaces.FutureMeeting;
 import iinterfaces.Meeting;
 import impls.ContactImpl;
 import impls.ContactManagerImpl;
+import impls.FutureMeetingImpl;
 import impls.MeetingImpl;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +34,8 @@ public class ContactManagerTest {
 	Contact c3;
 	Set<Contact> contactSet;
 	ContactManager cm;
+	FutureMeeting futMeetGood;
+	FutureMeeting futMeetBad;
 	
 	@Before
 	public void setUp(){
@@ -56,6 +60,9 @@ public class ContactManagerTest {
 		
 		cm = new ContactManagerImpl();
 		
+		futMeetGood = new FutureMeetingImpl(contactSet, calFut);  // FutureMeeting w/Future Date
+		futMeetBad = new FutureMeetingImpl(contactSet, calPast);   // FutureMeeting w/Past Date 
+		
 	}
 	
 	@Rule
@@ -64,14 +71,25 @@ public class ContactManagerTest {
 	
 	
 	@Test
+	// Tests for addFutureMeeting()
+	// ----------------------------
 	public void testAddFutureMeeting() {
 		int id = cm.addFutureMeeting(contactSet, calFut);
-		assertEquals("test AddFutureMeeting(): ", 1234, id);		
+		assertEquals("test addFutureMeeting(): ", 1234, id);		
 	}
 	
 	public void testEXAddFutureMeeting(){
 		ex.expect(IllegalArgumentException.class);
 		cm.addFutureMeeting(contactSet, calPast);
 	}
+	
+	// Tests for getFutureMeeting()
+	// ----------------------------
+	public void testGetFutureMeeting(){
+		int id = cm.addFutureMeeting(contactSet, calFut);
+		assertEquals("test getFutureMeeting(): ", futMeetGood, cm.getFutureMeeting(id));
+	}
+	
+	
 
 }
