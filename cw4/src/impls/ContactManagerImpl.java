@@ -21,7 +21,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	// Fields
 	// ------
 	private Date today;
-	private Calendar date;
+	//private Calendar date;
 	private Set<Contact> contactSet;
 	private List<Meeting> meetingList;
 	
@@ -46,8 +46,10 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	@Override
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException {
 		
-			if(date.after(today)){
-				FutureMeeting fm = (FutureMeeting) new MeetingImpl(contacts, date);
+			Date meetingDate = date.getTime();
+		
+			if(meetingDate.after(today)){
+				FutureMeeting fm = new FutureMeetingImpl(contacts, date);
 				meetingList.add(fm);
 				return 1234;  // Dummy ID 
 			}
@@ -56,7 +58,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 			}
 	}
 	
-	// 
+	
 
 	
 }
