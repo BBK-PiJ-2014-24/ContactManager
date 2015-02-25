@@ -23,7 +23,7 @@ public class MeetingImpl implements Meeting {
 	public MeetingImpl(Set contactSet, Calendar date){
 		this.contactSet = contactSet;
 		this.date = date;
-		id = IdGenerator.generateID("meetingId");
+		id = 0;
 	}
 
 
@@ -33,6 +33,10 @@ public class MeetingImpl implements Meeting {
 	@Override
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(int id){
+		this.id = id;
 	}
 
 	@Override
