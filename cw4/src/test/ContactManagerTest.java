@@ -75,22 +75,25 @@ public class ContactManagerTest {
 	// ----------------------------
 	public void testAddFutureMeeting() {
 		int id = cm.addFutureMeeting(contactSet, calFut);
-		assertTrue("test addFutureMeeting() -  min id: ", id >= 1000000);	
-		assertTrue("test addFutureMeeting() - max id: ", id <= 10000000);	
+		for(int i=0; i<100000;i++){
+			assertTrue("test addFutureMeeting() -  min id: ", id >= 1000000);	
+			assertTrue("test addFutureMeeting() - max id: ", id <= 10000000);
+		}
 	}
+	
 	@Test
 	public void testEXAddFutureMeeting(){
 		ex.expect(IllegalArgumentException.class);
 		cm.addFutureMeeting(contactSet, calPast);
 	}
 	
-	@Test
+//	@Test
 	// Tests for getFutureMeeting()
 	// ----------------------------
-	public void testGetFutureMeeting(){
-		int id = cm.addFutureMeeting(contactSet, calFut);
-		assertEquals("test getFutureMeeting(): ", futMeetGood, cm.getFutureMeeting(id));
-	}
+//	public void testGetFutureMeeting(){
+//		int id = cm.addFutureMeeting(contactSet, calFut);
+//		assertEquals("test getFutureMeeting(): ", futMeetGood, cm.getFutureMeeting(id));
+//	}
 	
 	
 
