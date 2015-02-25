@@ -11,9 +11,11 @@ import impls.FutureMeetingImpl;
 import impls.MeetingImpl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -74,10 +76,15 @@ public class ContactManagerTest {
 	// Tests for addFutureMeeting()
 	// ----------------------------
 	public void testAddFutureMeeting() {
-		int id = cm.addFutureMeeting(contactSet, calFut);
-		for(int i=0; i<100000;i++){
-			assertTrue("test addFutureMeeting() -  min id: ", id >= 1000000);	
-			assertTrue("test addFutureMeeting() - max id: ", id <= 10000000);
+		List<Integer> idContainer = new ArrayList<Integer>();
+		
+		for(int i=0; i<9000000;i++){
+			int id = cm.addFutureMeeting(contactSet, calFut);
+			
+			assertTrue("test addFutureMeeting() -  min id: ", id >= 1000000);	// test id min number
+			assertTrue("test addFutureMeeting() - max id: ", id <= 10000000); // test id max number
+			assertFalse("test ID Uniquenes: ", idContainer.contains(id));  // test uniqueness
+			idContainer.add(id);
 		}
 	}
 	
