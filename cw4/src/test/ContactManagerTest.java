@@ -78,7 +78,7 @@ public class ContactManagerTest {
 	public void testAddFutureMeeting() {
 		List<Integer> idContainer = new ArrayList<Integer>();
 		
-		for(int i=0; i<9000000;i++){
+		for(int i=0; i<900;i++){
 			int id = cm.addFutureMeeting(contactSet, calFut);
 			
 			assertTrue("test addFutureMeeting() -  min id: ", id >= 1000000);	// test id min number
@@ -86,6 +86,7 @@ public class ContactManagerTest {
 			assertFalse("test ID Uniquenes: ", idContainer.contains(id));  // test uniqueness
 			idContainer.add(id);
 		}
+		System.out.println("The end");
 	}
 	
 	@Test
@@ -94,14 +95,14 @@ public class ContactManagerTest {
 		cm.addFutureMeeting(contactSet, calPast);
 	}
 	
-//	@Test
+	@Test
 	// Tests for getFutureMeeting()
 	// ----------------------------
-//	public void testGetFutureMeeting(){
-//		int id = cm.addFutureMeeting(contactSet, calFut);
-//		assertEquals("test getFutureMeeting(): ", futMeetGood, cm.getFutureMeeting(id));
-//	}
-	
+	public void testGetFutureMeeting(){
+		int id = cm.addFutureMeeting(contactSet, calFut);
+		assertEquals("test getFutureMeeting(): ", futMeetGood, cm.getFutureMeeting(id));
+	}
 	
 
+	
 }
