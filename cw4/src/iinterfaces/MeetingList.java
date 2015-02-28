@@ -8,7 +8,14 @@ public interface MeetingList {
 	 * @param m - meeting
 	 * @returns - id
 	 */
-	int add(Meeting m);
+	int add(int id, Meeting m);
+		
+	/**
+	 * Finds a Meeting in the List
+	 * @param id - The Meeting ID
+	 * @return the meeting being looked for in the list
+	 */
+	Meeting getMeeting(int id);
 
 	/**
 	 * sets the ID
