@@ -36,8 +36,9 @@ public class ContactManagerTest {
 	Contact c3;
 	Set<Contact> contactSet;
 	ContactManager cm;
-	FutureMeeting futMeetGood;
-	FutureMeeting futMeetBad;
+	FutureMeetingImpl futMeetGood;
+	FutureMeetingImpl futMeetBad;
+	Meeting m;
 	
 	@Before
 	public void setUp(){
@@ -64,7 +65,7 @@ public class ContactManagerTest {
 		
 		futMeetGood = new FutureMeetingImpl(contactSet, calFut);  // FutureMeeting w/Future Date
 		futMeetBad = new FutureMeetingImpl(contactSet, calPast);   // FutureMeeting w/Past Date 
-		
+		m = new MeetingImpl(contactSet, calPast);
 	}
 	
 	@Rule
@@ -100,7 +101,10 @@ public class ContactManagerTest {
 	// ----------------------------
 	public void testGetFutureMeeting(){
 		int id = cm.addFutureMeeting(contactSet, calFut);
-		assertEquals("test getFutureMeeting(): ", futMeetGood, cm.getFutureMeeting(id));
+		futMeetGood.setId(id);
+		assertEquals("test getFutureMeeting() - Meeting ID Check: ", futMeetGood.getId(), cm.getFutureMeeting(id).getId());
+		assertEquals("test getFutureMeeting() - Meeting Contacts Check: ", futMeetGood.getContacts(), cm.getFutureMeeting(id).getContacts());
+		assertEquals("test getFutureMeeting() - Meeting Date Check: ", futMeetGood.getDate(), cm.getFutureMeeting(id).getDate());
 	}
 	
 
