@@ -27,6 +27,8 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	private Date today;
 	private Set<Contact> contactSet;
 	private Map<Integer, Meeting> meetingMap;
+	private int lastIdUpdate;		// Used to grab a Meeting ID for Testing.
+	
 	
 	
 	// Constructor
@@ -81,23 +83,55 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		else
 			return null;
 	} // end getFutureMeeting
+	
+	
 
+	// addNewPastMeeting()
+	// -------------------
 	@Override
 	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) 
-	throws IllegalArgumentException
+	throws IllegalArgumentException, NullPointerException
 	{
 		if(contacts == null){
 			throw new IllegalArgumentException("Contact Set Is Empty");
-		}	
+		}
+		else if(date== null ||text == null){
+			throw new NullPointerException("Date and notes Cannot be Empty");
+		}
 		else{
 			int id = 0;
 			while(id == 0 || meetingMap.containsKey(id)){  // generate an id for the Past meeting
 				id = IdGenerator.generateID("meetingId");
 			}
 			PastMeeting pm = new PastMeetingImpl(id, contacts, date, text);
+			meetingMap.put(id, pm);
+			lastIdUpdate = id;   // records the randomly generated ID 
 		}
 	} //end addNewPastMeeting
 	
+	
+
+	@Override
+	public PastMeeting getPastMeeting(int id) {
+		Meeting FoundMeeting;
+		FoundMeeting = meetingMap.get(id);
+		Date meetingDate = FoundMeeting.getDate().getTime();
+		
+		if(meetingDate.before(today)){
+				return (PastMeeting)FoundMeeting;
+		}
+		else
+			return null;
+	}
+	
+	
+	/**
+	 * returns the latest ID number when a new Meeting Object has been Instantiated.
+	 * @return ID of the last Instant Meeting
+	 */
+	public int getLastIdUpdate(){
+		return lastIdUpdate;
+	}
 	
 
 
