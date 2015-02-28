@@ -76,11 +76,11 @@ public class ContactManagerTest {
 		// Instant Meetings
 		// ----------------
 		
-		futMeetGood = new FutureMeetingImpl(contactSet, calFut);  // FutureMeeting w/Future Date
-		futMeetBad = new FutureMeetingImpl(contactSet, calPast);   // FutureMeeting w/Past Date 
-		m = new MeetingImpl(contactSet, calPast);
-		pastMeetGood = new PastMeetingImpl(contactSet, calPast, notes); // PastMeeting w/Past Date 
-		pastMeetBad = new PastMeetingImpl(contactSet, calFut, notes); // PasteMeeting w/Future Date
+		
+	//	futMeetBad = new FutureMeetingImpl(contactSet, calPast);   // FutureMeeting w/Past Date 
+	//	m = new MeetingImpl(contactSet, calPast);
+	//	pastMeetGood = new PastMeetingImpl(contactSet, calPast, notes); // PastMeeting w/Past Date 
+	//	pastMeetBad = new PastMeetingImpl(contactSet, calFut, notes); // PasteMeeting w/Future Date
 		
 		notes = "Meeting went well";
 	}
@@ -118,7 +118,7 @@ public class ContactManagerTest {
 	// ----------------------------
 	public void testGetFutureMeeting(){
 		int id = cm.addFutureMeeting(contactSet, calFut);
-		futMeetGood.setId(id);
+		futMeetGood = new FutureMeetingImpl(id, contactSet, calFut);  // FutureMeeting w/Future Date
 		assertEquals("test getFutureMeeting() - Meeting ID Check: ", futMeetGood.getId(), cm.getFutureMeeting(id).getId());
 		assertEquals("test getFutureMeeting() - Meeting Contacts Check: ", futMeetGood.getContacts(), cm.getFutureMeeting(id).getContacts());
 		assertEquals("test getFutureMeeting() - Meeting Date Check: ", futMeetGood.getDate(), cm.getFutureMeeting(id).getDate());
