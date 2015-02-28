@@ -14,8 +14,8 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 	
 	// Constructor
 	// -----------
-	public PastMeetingImpl(Set contactSet, Calendar date, String notes) {
-		super(contactSet, date);
+	public PastMeetingImpl(int id, Set contactSet, Calendar date, String notes) {
+		super(id, contactSet, date);
 		this.notes = notes;
 	}
 
@@ -25,6 +25,10 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 	@Override
 	public String getNotes() {
 		return notes;
+	}
+	
+	public void setNotes(String notes){
+		this.notes = notes;
 	}
 	
 	
