@@ -4,11 +4,11 @@ import java.util.Calendar;
 
 public interface MeetingList {
 	/**
-	 * puts Meetings in a map
-	 * @param id - meeting id
+	 * adds Meeting to a List of meetings and returns id.
 	 * @param m - meeting
+	 * @returns - id
 	 */
-	void put(Integer id, Meeting m);
+	int add(Meeting m);
 
 	/**
 	 * sets the ID
