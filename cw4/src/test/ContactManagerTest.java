@@ -133,6 +133,12 @@ public class ContactManagerTest {
 	}
 	
 	@Test
+	public void testExGetFutureMeeting(){
+		int id = 1234;
+		assertEquals("test getFutureMeeting() - Check Bad id", null, cm.getMeeting(id));	
+	}
+	
+	@Test
 	// Test for addNewPastMeeting()
 	// ----------------------------
 	public void testExAddNewPastMeeting1(){
@@ -140,14 +146,15 @@ public class ContactManagerTest {
 			cm.addNewPastMeeting(emptyContactSet, calPast, notes);  // test for emptyContactSet
 	}
 	
+	@Test
 	public void testExAddNewPastMeeting2(){
 			ex.expect(NullPointerException.class);
 			cm.addNewPastMeeting(contactSet, badDate, notes);  // test for BadDate
 	}
-	
+	@Test
 	public void testExAddNewPastMeeting3(){
 			ex.expect(NullPointerException.class);
-			cm.addNewPastMeeting(contactSet, calPast, notes);  // test for BadDate
+			cm.addNewPastMeeting(contactSet, calPast, badNotes);  // test for BadNotes
 	}
 	
 	@Test
@@ -163,14 +170,16 @@ public class ContactManagerTest {
 		assertEquals("test getPastMeeting() - Meeting Notes Check: ", pastMeetGood.getNotes(), cm.getPastMeeting(id).getNotes());
 	}
 	
+	@Test
 	public void testExGetNewPastMeeting1(){
 		cm.addNewPastMeeting(contactSet, calFut, notes);
 		int id = cm.getLastIdUpdate(); // Retrieve the randomly generated ID
 		assertEquals("test getPastMeeting() - Check Bad Date", null, cm.getPastMeeting(id));	
 	}
 	
+	@Test
 	public void testExGetNewPastMeeting2(){
-		int id = 1234;
+		int id = 1234; 
 		assertEquals("test getPastMeeting() - Check Bad id", null, cm.getPastMeeting(id));	
 	}
 	
@@ -192,7 +201,7 @@ public class ContactManagerTest {
 		assertEquals("test getMeeting() - PastMeeting Date Check: ", pastMeetGood.getDate(), cm.getPastMeeting(id).getDate());
 		assertEquals("test getMeeting() - PastMeeting Notes Check: ", pastMeetGood.getNotes(), cm.getPastMeeting(id).getNotes());	
 	}
-	
+	@Test
 	public void testExGetMeeting1(){
 		int id = 1234;
 		assertEquals("test getMeeting() - Check Bad id", null, cm.getMeeting(id));	
