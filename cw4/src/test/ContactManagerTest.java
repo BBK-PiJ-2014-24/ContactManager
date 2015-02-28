@@ -174,4 +174,28 @@ public class ContactManagerTest {
 		assertEquals("test getPastMeeting() - Check Bad id", null, cm.getPastMeeting(id));	
 	}
 	
+	@Test
+	// Test for getMeeting()
+	// ---------------------
+	public void testGetMeeting(){
+		int id = cm.addFutureMeeting(contactSet, calFut);
+		futMeetGood = new FutureMeetingImpl(id, contactSet, calFut);  // FutureMeeting w/Future Date
+		assertEquals("test getMeeting() - FutMeeting ID Check: ", futMeetGood.getId(), cm.getMeeting(id).getId());
+		assertEquals("test getMeeting() - FutMeeting Contacts Check: ", futMeetGood.getContacts(), cm.getMeeting(id).getContacts());
+		assertEquals("test getMeeting() - FutMeeting Date Check: ", futMeetGood.getDate(), cm.getMeeting(id).getDate());
+		
+		cm.addNewPastMeeting(contactSet, calPast, notes);
+		id = cm.getLastIdUpdate(); // Retrieve the randomly generated ID
+		pastMeetGood = new PastMeetingImpl(id, contactSet, calPast, notes);  // PastMeeting w/Past Date
+		assertEquals("test getMeeting() - PastMeeting ID Check: ", pastMeetGood.getId(), cm.getPastMeeting(id).getId());
+		assertEquals("test getMeeting() - PastMeeting Contacts Check: ", pastMeetGood.getContacts(), cm.getPastMeeting(id).getContacts());
+		assertEquals("test getMeeting() - PastMeeting Date Check: ", pastMeetGood.getDate(), cm.getPastMeeting(id).getDate());
+		assertEquals("test getMeeting() - PastMeeting Notes Check: ", pastMeetGood.getNotes(), cm.getPastMeeting(id).getNotes());	
+	}
+	
+	public void testExGetMeeting1(){
+		int id = 1234;
+		assertEquals("test getMeeting() - Check Bad id", null, cm.getMeeting(id));	
+	}
+	
 }
