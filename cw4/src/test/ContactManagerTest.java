@@ -136,24 +136,30 @@ public class ContactManagerTest {
 	// Test for addNewPastMeeting()
 	// ----------------------------
 	public void testExAddNewPastMeeting1(){
-		List<Integer> idContainer = new ArrayList<Integer>();  
 			ex.expect(IllegalArgumentException.class);
 			cm.addNewPastMeeting(emptyContactSet, calPast, notes);  // test for emptyContactSet
 	}
 	
 	public void testExAddNewPastMeeting2(){
-		List<Integer> idContainer = new ArrayList<Integer>();  
 			ex.expect(NullPointerException.class);
 			cm.addNewPastMeeting(contactSet, badDate, notes);  // test for BadDate
 	}
 	
 	public void testExAddNewPastMeeting3(){
-		List<Integer> idContainer = new ArrayList<Integer>();  
 			ex.expect(NullPointerException.class);
 			cm.addNewPastMeeting(contactSet, calPast, notes);  // test for BadDate
 	}
 	
-	
-
-	
+	@Test
+	// Test for getPastMeeting()
+	// -------------------------
+	public void testGetnewPastMeeting(){
+		cm.addNewPastMeeting(contactSet, calPast, notes);
+		int id = cm.LatestIdUpdate();
+		pastMeetGood = new PastMeetingImpl(id, contactSet, calPast, notes);  // FutureMeeting w/Future Date
+		assertEquals("test getPastMeeting() - Meeting ID Check: ", pastMeetGood.getId(), cm.getPastMeeting(id).getId());
+		assertEquals("test getPastMeeting() - Meeting Contacts Check: ", pastMeetGood.getContacts(), cm.getPastMeeting(id).getContacts());
+		assertEquals("test getPastMeeting() - Meeting Date Check: ", pastMeetGood.getDate(), cm.getPastMeeting(id).getDate());
+		assertEquals("test getPastMeeting() - Meeting Notes Check: ", pastMeetGood.getNotes(), cm.getPastMeeting(id).getNotes());
+	}
 }
