@@ -31,6 +31,7 @@ public class ContactManagerTest {
 	// ------------
 	Calendar calPast;
 	Calendar calFut;
+	Calendar badDate;
 	SimpleDateFormat sdf;
 	Contact c1;
 	Contact c2;
@@ -44,6 +45,7 @@ public class ContactManagerTest {
 	PastMeetingImpl pastMeetBad;
 	Meeting m;
 	String notes;
+	String badNotes;
 	
 	@Before
 	public void setUp(){
@@ -52,6 +54,7 @@ public class ContactManagerTest {
 		calPast = new GregorianCalendar(2014, 8, 24, 12, 05);
 		calFut = new GregorianCalendar(2018, 11, 25, 16, 37);
 		sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+		badDate = null;
 				
 		// Create Contacts
 		// ------------
@@ -82,7 +85,12 @@ public class ContactManagerTest {
 	//	pastMeetGood = new PastMeetingImpl(contactSet, calPast, notes); // PastMeeting w/Past Date 
 	//	pastMeetBad = new PastMeetingImpl(contactSet, calFut, notes); // PasteMeeting w/Future Date
 		
+		
+		// Notes
+		// -----
+		
 		notes = "Meeting went well";
+		badNotes = "";
 	}
 	
 	@Rule
@@ -130,10 +138,20 @@ public class ContactManagerTest {
 	public void testExAddNewPastMeeting1(){
 		List<Integer> idContainer = new ArrayList<Integer>();  
 			ex.expect(IllegalArgumentException.class);
-			cm.addNewPastMeeting(emptyContactSet, calFut, notes);  // test for emptyContactSet
+			cm.addNewPastMeeting(emptyContactSet, calPast, notes);  // test for emptyContactSet
 	}
 	
+	public void testExAddNewPastMeeting2(){
+		List<Integer> idContainer = new ArrayList<Integer>();  
+			ex.expect(NullPointerException.class);
+			cm.addNewPastMeeting(contactSet, badDate, notes);  // test for BadDate
+	}
 	
+	public void testExAddNewPastMeeting3(){
+		List<Integer> idContainer = new ArrayList<Integer>();  
+			ex.expect(NullPointerException.class);
+			cm.addNewPastMeeting(contactSet, calPast, notes);  // test for BadDate
+	}
 	
 	
 
