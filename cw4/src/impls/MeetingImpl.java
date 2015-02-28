@@ -20,10 +20,10 @@ public class MeetingImpl implements Meeting {
 	// Constructor
 	// -----------
 	
-	public MeetingImpl(Set contactSet, Calendar date){
+	public MeetingImpl(int id, Set contactSet, Calendar date){
+		this.id  = id;
 		this.contactSet = contactSet;
 		this.date = date;
-		id = 0;
 	}
 
 
@@ -48,10 +48,4 @@ public class MeetingImpl implements Meeting {
 	public Set<Contact> getContacts() {
 		return contactSet;
 	}
-
-
-
-	
-	
-
 }
