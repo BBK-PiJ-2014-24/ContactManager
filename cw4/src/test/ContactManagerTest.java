@@ -9,6 +9,7 @@ import impls.ContactImpl;
 import impls.ContactManagerImpl;
 import impls.FutureMeetingImpl;
 import impls.MeetingImpl;
+import impls.PastMeetingImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,10 +36,14 @@ public class ContactManagerTest {
 	Contact c2;
 	Contact c3;
 	Set<Contact> contactSet;
+	Set<Contact> emptyContactSet;
 	ContactManager cm;
 	FutureMeetingImpl futMeetGood;
 	FutureMeetingImpl futMeetBad;
+	PastMeetingImpl pastMeetGood;
+	PastMeetingImpl pastMeetBad;
 	Meeting m;
+	String notes;
 	
 	@Before
 	public void setUp(){
@@ -48,24 +53,36 @@ public class ContactManagerTest {
 		calFut = new GregorianCalendar(2018, 11, 25, 16, 37);
 		sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 				
-		// Set Contacts
+		// Create Contacts
 		// ------------
 		 c1 = new ContactImpl("Harry","Likes a Drink");
 		 c2 = new ContactImpl("Jill","Likes White Wine");
 		 c3 = new ContactImpl("Jack", "Teetotal");
+		 
 		
-		// Set of Contacts
-		// ---------------
+		// Create Set of Contacts
+		// ----------------------
 		contactSet = new HashSet<Contact>();
 		contactSet.add(c1);
 		contactSet.add(c2);
 		contactSet.add(c3);
 		
+		emptyContactSet = null;
+		
+		// Instant ContactManager
+		// ----------------------
 		cm = new ContactManagerImpl();
+		
+		// Instant Meetings
+		// ----------------
 		
 		futMeetGood = new FutureMeetingImpl(contactSet, calFut);  // FutureMeeting w/Future Date
 		futMeetBad = new FutureMeetingImpl(contactSet, calPast);   // FutureMeeting w/Past Date 
 		m = new MeetingImpl(contactSet, calPast);
+		pastMeetGood = new PastMeetingImpl(contactSet, calPast, notes); // PastMeeting w/Past Date 
+		pastMeetBad = new PastMeetingImpl(contactSet, calFut, notes); // PasteMeeting w/Future Date
+		
+		notes = "Meeting went well";
 	}
 	
 	@Rule
@@ -77,9 +94,9 @@ public class ContactManagerTest {
 	// Tests for addFutureMeeting()
 	// ----------------------------
 	public void testAddFutureMeeting() {
-		List<Integer> idContainer = new ArrayList<Integer>();
+		List<Integer> idContainer = new ArrayList<Integer>();  // Container for ID's in random Check
 		
-		for(int i=0; i<900;i++){
+		for(int i=0; i<900;i++){  // Testing Range and Uniqueness of IDs
 			int id = cm.addFutureMeeting(contactSet, calFut);
 			
 			assertTrue("test addFutureMeeting() -  min id: ", id >= 1000000);	// test id min number
@@ -106,6 +123,18 @@ public class ContactManagerTest {
 		assertEquals("test getFutureMeeting() - Meeting Contacts Check: ", futMeetGood.getContacts(), cm.getFutureMeeting(id).getContacts());
 		assertEquals("test getFutureMeeting() - Meeting Date Check: ", futMeetGood.getDate(), cm.getFutureMeeting(id).getDate());
 	}
+	
+	@Test
+	// Test for addNewPastMeeting()
+	// ----------------------------
+	public void testExAddNewPastMeeting1(){
+		List<Integer> idContainer = new ArrayList<Integer>();  
+			ex.expect(IllegalArgumentException.class);
+			cm.addNewPastMeeting(emptyContactSet, calFut, notes);  // test for emptyContactSet
+	}
+	
+	
+	
 	
 
 	
