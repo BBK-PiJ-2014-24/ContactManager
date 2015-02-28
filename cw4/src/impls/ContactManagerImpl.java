@@ -95,7 +95,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		if(contacts == null){
 			throw new IllegalArgumentException("Contact Set Is Empty");
 		}
-		else if(date== null ||text == null){
+		else if(date== null ||text == null || text == ""){
 			throw new NullPointerException("Date and notes Cannot be Empty");
 		}
 		else{
@@ -110,18 +110,22 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	} //end addNewPastMeeting
 	
 	
-
 	@Override
 	public PastMeeting getPastMeeting(int id) {
 		Meeting FoundMeeting;
 		FoundMeeting = meetingMap.get(id);
-		Date meetingDate = FoundMeeting.getDate().getTime();
-		
-		if(meetingDate.before(today)){
-				return (PastMeeting)FoundMeeting;
-		}
-		else
+		if(FoundMeeting == null){
 			return null;
+		}
+		else{	
+			Date meetingDate = FoundMeeting.getDate().getTime();
+			if(meetingDate.before(today)){
+					return (PastMeeting)FoundMeeting;
+			}
+			else{
+			return null;
+			}
+		}
 	}
 	
 	
@@ -131,6 +135,13 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	 */
 	public int getLastIdUpdate(){
 		return lastIdUpdate;
+	}
+
+	@Override
+	public Meeting getMeeting(int id) {
+		Meeting FoundMeeting;
+		FoundMeeting = meetingMap.get(id);
+		return FoundMeeting;
 	}
 	
 
