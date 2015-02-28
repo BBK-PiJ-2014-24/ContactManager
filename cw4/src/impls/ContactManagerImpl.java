@@ -16,6 +16,7 @@ import iinterfaces.Contact;
 import iinterfaces.ContactManager;
 import iinterfaces.FutureMeeting;
 import iinterfaces.Meeting;
+import iinterfaces.MeetingList;
 import iinterfaces.PastMeeting;
 
 
@@ -25,21 +26,20 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	// ------
 	private Date today;
 	private Set<Contact> contactSet;
-	private Map<Integer,Meeting> meetingMap;
+	private Map<Integer, Meeting> meetingMap;
 	
 	
 	// Constructor
 	// -----------
 	public ContactManagerImpl(){
-		// Set Up Calendar Format
-		Calendar cal = new GregorianCalendar();
+		
+		Calendar cal = new GregorianCalendar();  // Set Up Calendar Format
 		TimeZone tz = TimeZone.getTimeZone("Europe/London");
 		cal.setTimeZone(tz);
 		today = cal.getTime();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
 		
-		//Instant MeetingList and ContactSet
-		meetingMap = new HashMap<Integer,Meeting>();
+		meetingMap = new HashMap<Integer, Meeting>();   // Instant MeetingList and ContactSet
 		contactSet = new HashSet<Contact>();
 		
 	}
@@ -52,12 +52,11 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 			Date meetingDate = date.getTime();
 		
 			if(meetingDate.after(today)){
-				FutureMeetingImpl fm = new FutureMeetingImpl(contacts, date);
 				int id = 0;
 				while(id == 0 || meetingMap.containsKey(id)){  // generate an id for the future meeting
 					id = IdGenerator.generateID("meetingId");
 				}
-				fm.setId(id);
+				FutureMeeting fm = new FutureMeetingImpl(id, contacts, date);
 				meetingMap.put(id, fm);
 				return fm.getId();  // Dummy ID 
 			}
@@ -81,7 +80,27 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		}
 		else
 			return null;
-	}
+	} // end getFutureMeeting
+
+	@Override
+	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) 
+	throws IllegalArgumentException
+	{
+		if(contacts == null){
+			throw new IllegalArgumentException("Contact Set Is Empty");
+		}	
+		else{
+			int id = 0;
+			while(id == 0 || meetingMap.containsKey(id)){  // generate an id for the Past meeting
+				id = IdGenerator.generateID("meetingId");
+			}
+			PastMeeting pm = new PastMeetingImpl(id, contacts, date, text);
+		}
+	} //end addNewPastMeeting
+	
+	
+
+
 
 
 	
