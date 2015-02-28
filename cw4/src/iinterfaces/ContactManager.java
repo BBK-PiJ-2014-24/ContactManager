@@ -78,7 +78,7 @@ FutureMeeting getFutureMeeting(int id);
 * @throws IllegalArgumentException if the list of contacts is
 * empty, or any of the contacts does not exist
 * @throws NullPointerException if any of the arguments is null */
-//void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text);
+void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text);
 
 /**
 * Add notes to a meeting. *
