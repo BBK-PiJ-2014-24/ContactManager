@@ -7,8 +7,8 @@ import iinterfaces.FutureMeeting;
 
 public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting{
 
-	public FutureMeetingImpl(Set contactSet, Calendar date) {
-		super(contactSet, date);
+	public FutureMeetingImpl(int id, Set contactSet, Calendar date) {
+		super(id, contactSet, date);
 	}
 
 }
