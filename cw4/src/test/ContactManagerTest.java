@@ -249,7 +249,7 @@ public class ContactManagerTest {
 		int id = 1234;
 		assertEquals("test getMeeting() - Check Bad id", null, cm.getMeeting(id));	
 	}
-	
+/*	
 	@Test
 	// Test for getFutureMeetingList(Contact)
 	// --------------------------------------
@@ -287,6 +287,8 @@ public class ContactManagerTest {
 		ex.expect(IllegalArgumentException.class);
 		cm.getFutureMeetingList(gertrude);
 	}
+*/
+	
 	
 	
 }
