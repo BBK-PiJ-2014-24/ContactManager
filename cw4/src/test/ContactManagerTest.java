@@ -1,10 +1,8 @@
 package test;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.*;
 import static org.hamcrest.CoreMatchers.*;
-
 import iinterfaces.Contact;
 import iinterfaces.ContactManager;
 import iinterfaces.FutureMeeting;
@@ -45,6 +43,7 @@ public class ContactManagerTest {
 	SimpleDateFormat sdf;
 	Contact harry;
 	Contact jill;
+	Contact jill2;
 	Contact jack;
 	Contact jim;
 	Contact sophie;
@@ -100,6 +99,7 @@ public class ContactManagerTest {
 		// ------------
 		 harry = new ContactImpl("Harry","Likes a Drink");
 		 jill = new ContactImpl("Jill","Likes White Wine");
+		 jill2 = new ContactImpl("Jill","Likes Red Wine");
 		 jack = new ContactImpl("Jack", "Teetotal");
 		 jim = new ContactImpl("Jim", "BUSY MAN");
 		 sophie = new ContactImpl("Sophie", "Angel");
@@ -128,6 +128,7 @@ public class ContactManagerTest {
 		
 		fullContactSet = new HashSet<Contact>();
 		contactSet.add(jill);
+		contactSet.add(jill2);
 		contactSet.add(jack);
 		contactSet.add(jim);
 		contactSet.add(harry);
@@ -318,6 +319,7 @@ public class ContactManagerTest {
 	}
 	
 	@Test
+	// getContacts(ids ...);
 	public void testGetContacts2(){
 		// Load Some Contacts into ContactManager
 		cm.addNewContact("Harry","Likes a Drink");  // Harry to be Found with this get method
@@ -356,7 +358,6 @@ public class ContactManagerTest {
 		}
 	}
 	
-	
 	@Test
 	public void testExGetContacts(){ // TEST FOR INVALID ID
 		cm.addNewContact("Harry","Likes a Drink");  // Harry to be Found with this get method
@@ -370,7 +371,39 @@ public class ContactManagerTest {
 		cm.getContacts(id1,id2,id3,999);
 	}
 	
+	@Test
+	// getContacts(String name)
+	// ------------------------
+	public void testGetContactsNames(){
+		 cm.addNewContact("Harry","Likes a Drink");
+		 cm.addNewContact("Jill","Likes White Wine");
+		 cm.addNewContact("Jill","Likes Red Wine");
+		 cm.addNewContact("Jack", "Teetotal");
+		 cm.addNewContact("Jim", "BUSY MAN");
+		 cm.addNewContact("Sophie", "Angel");
+		 cm.addNewContact("Alan", "Big Guy");
+		 cm.addNewContact("Guy", "Slim Guy");
+		 cm.addNewContact("Mark", "Shifty");
+		 cm.addNewContact("Jill","Likes Whisky");
+		
+		 
+		 List<String> names = new ArrayList<String>();
+			names.add("Jill");
+			names.add("Jill");
+			names.add("Jill");
+			
+			Set<Contact> foundContacts = cm.getContacts("jill");	
+		 for(Contact i : foundContacts){
+			assertTrue("testGetContacts - Same Names", names.contains(i.getName()));
+		 }
+	}
 	
+	 @Test
+	 public void testExGetContactsNames(){
+		 ex.expect(IllegalArgumentException.class);
+		 String s = null;
+		 cm.getContacts(s);
+	 }
 	
 /*	
 	@Test
