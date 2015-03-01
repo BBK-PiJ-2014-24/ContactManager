@@ -37,7 +37,7 @@ public interface ContactManager { /**
 * Returns the meeting with the requested ID, or null if it there is none
 * @param id the ID for the
 * @return the meeting with the requested ID, or null if it there is none.*/
-Meeting getMeeting(int id);
+   Meeting getMeeting(int id);
 
 /**
 * Returns the list of future meetings scheduled with this contact. *
@@ -47,7 +47,7 @@ Meeting getMeeting(int id);
 * @param contact one of the user’s contacts
 * @return the list of future meeting(s) scheduled with this contact
 * @throws IllegalArgumentException if the contact does not exist */
-//List<Meeting> getFutureMeetingList(Contact contact);
+List<Meeting> getFutureMeetingList(Contact contact);
 
 /**
 * Returns the list of meetings that are scheduled for, or that took
