@@ -25,7 +25,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	// Fields
 	// ------
 	private Date today;
-	private Set<Contact> contactSet;
+	private Map<Integer,Contact> contactMap;
 	private Map<Integer, Meeting> meetingMap;
 	private int lastIdUpdate;		// Used to grab a Meeting ID for Testing.
 	
@@ -42,7 +42,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
 		
 		meetingMap = new HashMap<Integer, Meeting>();   // Instant MeetingList and ContactSet
-		contactSet = new HashSet<Contact>();
+		contactMap = new HashMap<Integer, Contact>();
 		
 	}
 
@@ -143,6 +143,35 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		FoundMeeting = meetingMap.get(id);
 		return FoundMeeting;
 	}
+
+	@Override
+	public void addNewContact(String name, String notes) throws IllegalArgumentException {
+		
+		if(name == null || name == ""){
+			throw new IllegalArgumentException("Invalid Name Entry");
+		}
+		else if(notes == null || notes == ""){
+			throw new IllegalArgumentException("Invalid Notes Entry");
+		}
+		else{
+			int id = 0;
+			while(id == 0 || contactMap.containsKey(id)){  // generate an id for the Contact
+				id = IdGenerator.generateID("contactId");
+			}
+			Contact newContact = new ContactImpl(id, name, notes); 
+			contactMap.put(id, newContact);
+		}
+	}
+	
+	/**
+	 * Finds the size of the Contact Map
+	 * @return the number of contacts in the Map
+	 */
+	public int getContactMapSize(){
+		return contactMap.size();
+	}
+
+
 	
 
 
