@@ -113,7 +113,7 @@ Set<Contact> getContacts(int... ids);
 * @param name the string to search for
 * @return a list with the contacts whose name contains that string.
 * @throws NullPointerException if the parameter is null */
-//Set<Contact> getContacts(String name);
+Set<Contact> getContacts(String name);
 
 /**
 * Save all data to disk. *
