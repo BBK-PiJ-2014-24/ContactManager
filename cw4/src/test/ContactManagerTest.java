@@ -39,16 +39,20 @@ public class ContactManagerTest {
 	Calendar jul15;
 	Calendar aug15;
 	SimpleDateFormat sdf;
-	Contact c1;
-	Contact c2;
-	Contact c3;
+	Contact harry;
+	Contact jill;
+	Contact jack;
 	Contact jim;
-	Contact c5;
+	Contact sophie;
 	Contact gertrude;
+	Contact alan;
+	Contact guy;
+	Contact mark;
 	Set<Contact> contactSet;
 	Set<Contact> emptyContactSet;
-	Set<Contact>JimJillSet;
-	Set<Contact>HarrySophieSet;
+	Set<Contact>jimJillSet;
+	Set<Contact>harrySophieSet;
+	Set<Contact> fullContactSet;
 	
 	List<Meeting> jimMeetingList;
 	List<Meeting> harryMeetingList;
@@ -90,31 +94,45 @@ public class ContactManagerTest {
 				
 		// Create Contacts
 		// ------------
-		 c1 = new ContactImpl("Harry","Likes a Drink");
-		 c2 = new ContactImpl("Jill","Likes White Wine");
-		 c3 = new ContactImpl("Jack", "Teetotal");
+		 harry = new ContactImpl("Harry","Likes a Drink");
+		 jill = new ContactImpl("Jill","Likes White Wine");
+		 jack = new ContactImpl("Jack", "Teetotal");
 		 jim = new ContactImpl("Jim", "BUSY MAN");
-		 c5 = new ContactImpl("Sophie", "Angel");
+		 sophie = new ContactImpl("Sophie", "Angel");
 		 gertrude = new ContactImpl("Gertrude", "NOT ON CONTACT LIST");
-		 
+		 alan = new ContactImpl("Alan", "Big Guy");
+		 guy = new ContactImpl("Guy", "Slim Guy");
+		 mark = new ContactImpl("Mark", "Shifty");
 		 
 		
 		// Create Set of Contacts
 		// ----------------------
 		contactSet = new HashSet<Contact>();
-		contactSet.add(c1);
-		contactSet.add(c2);
-		contactSet.add(c3);
+		contactSet.add(harry);
+		contactSet.add(jill);
+		contactSet.add(jack);
 	
 		emptyContactSet = null;
 		
-		JimJillSet = new HashSet<Contact>();
-		JimJillSet.add(c2);
-		JimJillSet.add(jim);
+		jimJillSet = new HashSet<Contact>();
+		jimJillSet.add(jill);
+		jimJillSet.add(jim);
 		
-		HarrySophieSet = new HashSet<Contact>();
-		HarrySophieSet.add(c1);
-		HarrySophieSet.add(c5);
+		harrySophieSet = new HashSet<Contact>();
+		harrySophieSet.add(harry);
+		harrySophieSet.add(sophie);
+		
+		fullContactSet = new HashSet<Contact>();
+		contactSet.add(jill);
+		contactSet.add(jack);
+		contactSet.add(jim);
+		contactSet.add(harry);
+		contactSet.add(sophie);
+		contactSet.add(alan);
+		contactSet.add(guy);
+		contactSet.add(mark);
+		
+		
 		
 		// Instant ContactManager
 		// ----------------------
@@ -249,6 +267,40 @@ public class ContactManagerTest {
 		int id = 1234;
 		assertEquals("test getMeeting() - Check Bad id", null, cm.getMeeting(id));	
 	}
+	
+	
+	@Test
+	// test addNewContact()
+	// --------------------
+	public void testAddGetNewContact(){
+		Contact Stefan = new ContactImpl("Stefan", "cub scout");
+		cm.addNewContact("Stefan", "cub scout");
+		int id = cm.getLastIdUpdate(); // Retrieve the randomly generated ID
+		assertEquals("test Single addNewContact - Size of  : ", 1, cm.getContactMapSize());
+	}
+	
+	public void testExAddGetNewContact1(){
+		ex.expect(NullPointerException.class);
+		cm.addNewContact("Stefan", "");   // No Notes
+	}
+	
+	public void testExAddGetNewContact2(){
+		ex.expect(NullPointerException.class);
+		cm.addNewContact("Stefan", null);   // null Notes
+	}	
+	
+	public void testExAddGetNewContact3(){
+		ex.expect(NullPointerException.class);
+		cm.addNewContact("", "cub scout");   // No name
+	}
+	
+	public void testExAddGetNewContact4(){
+		ex.expect(NullPointerException.class);
+		cm.addNewContact(null, "cub scout");   // No name
+	}	
+	
+	
+	
 /*	
 	@Test
 	// Test for getFutureMeetingList(Contact)
