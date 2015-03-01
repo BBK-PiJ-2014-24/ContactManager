@@ -105,7 +105,7 @@ void addNewContact(String name, String notes);
 * @param ids an arbitrary number of contact IDs
 * @return a list containing the contacts that correspond to the IDs.
 * @throws IllegalArgumentException if any of the IDs does not correspond to a real contact */
-// Set<Contact> getContacts(int... ids);
+Set<Contact> getContacts(int... ids);
 
 /**
 * Returns a list with the contacts whose name contains that string.
