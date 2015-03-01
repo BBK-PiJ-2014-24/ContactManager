@@ -7,7 +7,7 @@ public class ContactImpl implements Contact{
 	// Fields
 	// ------
 	
-	private int id = 1234;
+	private int id;
 	private String name;
 	private String notes;
 	
@@ -15,10 +15,16 @@ public class ContactImpl implements Contact{
 	// -----------
 	
 	public ContactImpl(String name, String notes){
+		id = 1234;
 		this.name = name;
 		this.notes = notes;
 	}
 	
+	public ContactImpl(int id, String name, String notes){
+		this.id = id;
+		this.name = name;
+		this.notes = notes;
+	}
 	
 	// Getter/Setters
 	// --------------
