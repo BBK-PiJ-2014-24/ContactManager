@@ -275,7 +275,6 @@ public class ContactManagerTest {
 	public void testAddGetNewContact(){
 		Contact Stefan = new ContactImpl("Stefan", "cub scout");
 		cm.addNewContact("Stefan", "cub scout");
-		int id = cm.getLastIdUpdate(); // Retrieve the randomly generated ID
 		assertEquals("test Single addNewContact - Size of  : ", 1, cm.getContactMapSize());
 	}
 	
@@ -298,6 +297,58 @@ public class ContactManagerTest {
 		ex.expect(NullPointerException.class);
 		cm.addNewContact(null, "cub scout");   // No name
 	}	
+	
+	@Test
+	// test getContacts()
+	// ---------------------
+	public void testGetContacts1(){
+		cm.addNewContact("Harry","Likes a Drink");  // Harry to be Found with this get method
+		int id = cm.getLastIdUpdate(); // Retrieve the randomly generated ID
+		cm.addNewContact("Paul","policeman"); // Padding for the Contact List
+		cm.addNewContact("Portia","sweet girl"); // Padding for the Contact List
+		Set<Contact> foundContacts = cm.getContacts(id);  // return type is Set
+		Contact[] contactArray = (Contact[]) foundContacts.toArray(new Contact[foundContacts.size()]); // Convert to array
+		assertEquals("test getContacts() - single contact Name", "Harry", contactArray[0].getName());
+		assertEquals("test getContacts() - single contact Notes", "Likes a Drink", contactArray[0].getName());
+	}
+	
+	@Test
+	public void testGetContacts2(){
+		// Load Some Contacts into ContactManager
+		cm.addNewContact("Harry","Likes a Drink");  // Harry to be Found with this get method
+		int id1 = cm.getLastIdUpdate(); // Retrieve the randomly generated ID
+		cm.addNewContact("Paul","policeman"); // Padding for the Contact List
+		int id2 = cm.getLastIdUpdate(); // Retrieve the randomly generated ID
+		cm.addNewContact("Portia","sweet girl"); // Padding for the Contact List
+		int id3 = cm.getLastIdUpdate(); // Retrieve the randomly generated ID
+		
+		// Create a parallel test set of contacts 
+		Set<Contact> testSet = new HashSet<Contact>();
+		Contact harry = new ContactImpl(id1,"Harry","Likes a Drink");
+		Contact paul = new ContactImpl(id2,"Paul","policeman");
+		Contact portia = new ContactImpl(id3,"Portia","sweet girl");
+		testSet.add(harry);
+		testSet.add(paul);
+		testSet.add(portia);
+		
+		Set<Contact> foundContacts = cm.getContacts(id1,id2,id3);  // return type is Set
+		Contact[] contactArray = (Contact[]) foundContacts.toArray(new Contact[foundContacts.size()]); // Convert to array
+		assertEquals("test getContacts() - multiple contacts", testSet, foundContacts);
+	}
+	
+	
+	@Test
+	public void testExGetContacts(){ // TEST FOR INVALID ID
+		cm.addNewContact("Harry","Likes a Drink");  // Harry to be Found with this get method
+		int id1 = cm.getLastIdUpdate(); // Retrieve the randomly generated ID
+		cm.addNewContact("Paul","policeman"); // Padding for the Contact List
+		int id2 = cm.getLastIdUpdate(); // Retrieve the randomly generated ID
+		cm.addNewContact("Portia","sweet girl"); // Padding for the Contact List
+		int id3 = cm.getLastIdUpdate(); // Retrieve the randomly generated ID
+		
+		ex.expect(IllegalArgumentException.class);
+		cm.getContacts(id1,id2,id3,999);
+	}
 	
 	
 	
