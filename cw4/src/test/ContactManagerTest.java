@@ -1,6 +1,10 @@
 package test;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.*;
+import static org.hamcrest.CoreMatchers.*;
+
 import iinterfaces.Contact;
 import iinterfaces.ContactManager;
 import iinterfaces.FutureMeeting;
@@ -307,9 +311,10 @@ public class ContactManagerTest {
 		cm.addNewContact("Paul","policeman"); // Padding for the Contact List
 		cm.addNewContact("Portia","sweet girl"); // Padding for the Contact List
 		Set<Contact> foundContacts = cm.getContacts(id);  // return type is Set
+		// Convert set =>toArray
 		Contact[] contactArray = (Contact[]) foundContacts.toArray(new Contact[foundContacts.size()]); // Convert to array
 		assertEquals("test getContacts() - single contact Name", "Harry", contactArray[0].getName());
-		assertEquals("test getContacts() - single contact Notes", "Likes a Drink", contactArray[0].getName());
+		assertEquals("test getContacts() - single contact Notes", "Likes a Drink", contactArray[0].getNotes());
 	}
 	
 	@Test
@@ -331,9 +336,24 @@ public class ContactManagerTest {
 		testSet.add(paul);
 		testSet.add(portia);
 		
+		List<String> names = new ArrayList<String>();
+		names.add("Harry");
+		names.add("Paul");
+		names.add("Portia");
+		
 		Set<Contact> foundContacts = cm.getContacts(id1,id2,id3);  // return type is Set
-		Contact[] contactArray = (Contact[]) foundContacts.toArray(new Contact[foundContacts.size()]); // Convert to array
-		assertEquals("test getContacts() - multiple contacts", testSet, foundContacts);
+		for(Contact i : foundContacts){
+			assertTrue("testGetContacts - multiple Contacts - Check Names", names.contains(i.getName()));
+		}
+		
+		List<String> listNotes = new ArrayList<String>();
+		listNotes.add("Likes a Drink");
+		listNotes.add("policeman");
+		listNotes.add("sweet girl");
+		
+		for(Contact i : foundContacts){
+			assertTrue("testGetContacts - multiple Contacts - Check Notes", listNotes.contains(i.getNotes()));
+		}
 	}
 	
 	
