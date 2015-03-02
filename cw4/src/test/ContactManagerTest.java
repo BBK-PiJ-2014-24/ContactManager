@@ -32,6 +32,7 @@ public class ContactManagerTest {
 	// Declarations
 	// ------------
 	Calendar calPast;
+	Calendar dudDate
 	Calendar calFut;
 	Calendar badDate;
 	Calendar mar15;
@@ -93,7 +94,7 @@ public class ContactManagerTest {
 		jun15 = new GregorianCalendar(2015, 6, 23, 12, 05);
 		jul15 = new GregorianCalendar(2015, 7, 23, 12, 05);
 		aug15 = new GregorianCalendar(2015, 8, 23, 12, 05);
-		
+		dudDate = new GregorianCalendar(2022, 8, 23, 12, 05);
 				
 		// Create Contacts
 		// ------------
@@ -437,7 +438,7 @@ public class ContactManagerTest {
 		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
 		 harrySophieSet = cm.getContacts(idHarry, idSophie);
 		
-		 cm.addFutureMeeting(jimJillSet, calPast);  // add BAD Past meeting to ContactManager
+		 cm.addNewPastMeeting(jimJillSet, calPast,"Meeting went well");  // add BAD Past meeting to ContactManager
 		 cm.addFutureMeeting(jimJillSet, mar15);  // add Future meetings to ContactManager
 		 cm.addFutureMeeting(jimJillSet, apr15);
 		 cm.addFutureMeeting(jimJillSet, may15);
@@ -497,8 +498,64 @@ public class ContactManagerTest {
 		ex.expect(IllegalArgumentException.class);
 		cm.getFutureMeetingList(gertrude);
 	}
-
 	
+	@Test
+	// getFutureMeetingList(Calendar)
+	// ------------------------------
+	public void testgetFutureMeetingListContact(){
+		
+		cm.addNewContact("Harry","Likes a Drink");   //add contacts to ContactManager & get IDs
+		 int idHarry = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes White Wine");
+		 int idJill1 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes Red Wine");
+		 int idJill2 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jack", "Teetotal");
+		 cm.addNewContact("Jim", "BUSY MAN");
+		 int idJim = cm.getLastIdUpdate();
+		 cm.addNewContact("Sophie", "Angel");
+		 int idSophie = cm.getLastIdUpdate();
+		 
+		 
+		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+		
+		
+		 cm.addNewPastMeeting(jimJillSet, calPast,"Meeting went well");  // add BAD Past meeting to ContactManager
+		 cm.addFutureMeeting(jimJillSet, mar15);  // add Future meetings to ContactManager
+		 cm.addFutureMeeting(harrySophieSet, mar15);
+		 cm.addFutureMeeting(jimJillSet, apr15);
+		 cm.addFutureMeeting(jimJillSet, may15);
+		 cm.addFutureMeeting(jimJillSet, jun15);
+		 cm.addFutureMeeting(harrySophieSet, jun15);
+		 cm.addFutureMeeting(harrySophieSet, aug15);
+		 
+		 List<Calendar> mar15MeetingList = new ArrayList<Calendar>();    // Create a Test List for Mar 15
+		 mar15MeetingList.add(mar15);
+		 mar15MeetingList.add(mar15);
+		  
+		 List<Calendar> jun15MeetingList = new ArrayList<Calendar>(); // Create a Test List for Jun 15
+		 jun15MeetingList.add(jun15);
+		 jun15MeetingList.add(jun15);
+		 
+		 
+		 List<Meeting> findMar15Meetings = cm.getFutureMeetingList(mar15);
+		 List<Meeting> findJun15Meetings = cm.getFutureMeetingList(jun15);
+		 
+		 
+		 
+		 for(Meeting i : findMar15Meetings){
+			 assertTrue("test getFutureMeeting(Calendar) for Mar15: ", mar15MeetingList.contains(i.getDate()));
+		 }
+		 
+		 for(Meeting i : findJun15Meetings){
+			 assertTrue("test getFutureMeeting(Calendar) for Jun15: ", jun15MeetingList.contains(i.getDate()));
+		 }
+	}
 	
-	
+	@Test
+	public void testExgetFutureMeetingListContact(){
+		List<Meeting> noMeetings = cm.getFutureMeetingList(dudDate);
+		assertEquals("test getFutureMeeting(Calendar) for DudDate: ", 0, noMeetings.size() ); // Test for No Entries
+	}
 }
