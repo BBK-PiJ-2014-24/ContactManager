@@ -422,19 +422,23 @@ public class ContactManagerTest {
 		 jimMeetingList.add(may15);
 		 jimMeetingList.add(jun15);
 		  
-		 harryMeetingList = new ArrayList<Calendar>();
-		 harryMeetingList.add(jul15);
+		 harryMeetingList = new ArrayList<Calendar>(); // Incorrect Date Order
 		 harryMeetingList.add(aug15);
+		 harryMeetingList.add(jul15);
+		 
 		 
 		 List<Meeting> findJimList = cm.getFutureMeetingList(jim);
 		 List<Meeting> findHarryList = cm.getFutureMeetingList(harry);
 		 
+		 int k=0;
 		 for(Meeting i : findJimList){
-			 assertTrue("test getFutureMeeting(Contact) for Jim: ", jimMeetingList.contains(i.getDate()));;
+			 assertTrue("test getFutureMeeting(Contact) for Jim: ", jimMeetingList.contains(i.getDate()));
+			 assertTrue("test Date Order getFutureMeeting(Contact) for Jim: ", jimMeetingList.get(k).equals(i.getDate()));
 		 }
 		 for(Meeting i : findHarryList){
-			 assertTrue("test getFutureMeeting(Contact) for Harry: ", harryMeetingList.contains(i.getDate()));;
-		 }	 
+			 assertTrue("test getFutureMeeting(Contact) for Harry: ", harryMeetingList.contains(i.getDate()));
+			 assertFalse("test Wrong Date Order getFutureMeeting(Contact) for Harry: ", jimMeetingList.get(k).equals(i.getDate()));
+		 }
 	}
 	
 	@Test
