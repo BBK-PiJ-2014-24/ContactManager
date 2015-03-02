@@ -2,6 +2,7 @@ package impls;
 
 import iinterfaces.Meeting;
 
+import java.util.Calendar;
 import java.util.Comparator;
 
 /**
@@ -20,9 +21,13 @@ public class MeetingComparator implements Comparator{
 		Meeting m1 = (Meeting) o1;
 		Meeting m2 = (Meeting) o2;
 		
-		if(m1.getDate().before(m2)) return -1;
-		if(m1.getDate().after(m2)) return 1;
-		return 0;
+		Calendar cal1 = m1.getDate();
+		Calendar cal2 = m2.getDate();
+		
+		
+		if(cal1.getTime().before(cal2.getTime())) return -1;
+		if(cal1.getTime().equals(cal2.getTime())) return 0;
+		return 1;
 	}
 
 }
