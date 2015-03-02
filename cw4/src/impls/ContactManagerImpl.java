@@ -199,9 +199,9 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		}
 		else{
 			for(Contact i : contactMap.values()){
-				if(i.getName().equals(name)){
-					set.add(i);
-				}
+					if(i.getName().equals(name)){
+						set.add(i);
+					}
 			} // end loop
 		} // end else	
 		return set;
@@ -218,13 +218,16 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		}
 		else{
 			for(Meeting i : meetingMap.values()){
-				if(i.getContacts().contains(contact)){
-					mList.add(i);
+				if(i.getClass().equals(FutureMeetingImpl.class)){
+					if(i.getContacts().contains(contact)){
+						mList.add(i);
+					}
 				}
 			} // end loop
 		} // end else
 		
 		Collections.sort(mList,mComparator);
+		
 		return mList;	
 	}
 
