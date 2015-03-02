@@ -44,12 +44,12 @@ public class PastMeetingTest {
 		// ------------
 		
 		String myNotes = "He Was Very Drunk";
-		PastMeetingImpl pm = new PastMeetingImpl(ContactSet, cal, myNotes);
+		PastMeetingImpl pm = new PastMeetingImpl(1234, ContactSet, cal, myNotes);
 		
 		// tests
 		// -----
 		//m.id = 1234;
-		//assertEquals("getID() Check: ", m.getId(), 1234);
+		assertEquals("getID() Check: ", pm.getId(), 1234);
 		assertEquals("getDate() Check: ", cal, pm.getDate());
 		assertEquals("getContacts() Check: ", ContactSet, pm.getContacts());
 		assertEquals("getNotes() Check: ", myNotes, pm.getNotes());
