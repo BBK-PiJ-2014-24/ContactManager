@@ -3,6 +3,8 @@ package impls;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -203,6 +205,27 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 			} // end loop
 		} // end else	
 		return set;
+	}
+
+	@Override
+	public List<Meeting> getFutureMeetingList(Contact contact) throws IllegalArgumentException {
+		
+		ArrayList<Meeting> mList = new ArrayList<Meeting>();
+		Comparator mComparator = new MeetingComparator();  // A Comparator for Ordering
+														   // Meetings in Chrono Order.		
+		if(!contactMap.containsValue(contact)){
+			throw new IllegalArgumentException("Invalid Contact");
+		}
+		else{
+			for(Meeting i : meetingMap.values()){
+				if(i.getContacts().contains(contact)){
+					mList.add(i);
+				}
+			} // end loop
+		} // end else
+		
+		Collections.sort(mList,mComparator);
+		return mList;	
 	}
 
 
