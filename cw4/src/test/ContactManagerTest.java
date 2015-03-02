@@ -437,7 +437,8 @@ public class ContactManagerTest {
 		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
 		 harrySophieSet = cm.getContacts(idHarry, idSophie);
 		
-		 cm.addFutureMeeting(jimJillSet, mar15);  // add meetings to ContactManager
+		 cm.addFutureMeeting(jimJillSet, calPast);  // add BAD Past meeting to ContactManager
+		 cm.addFutureMeeting(jimJillSet, mar15);  // add Future meetings to ContactManager
 		 cm.addFutureMeeting(jimJillSet, apr15);
 		 cm.addFutureMeeting(jimJillSet, may15);
 		 cm.addFutureMeeting(jimJillSet, jun15);
