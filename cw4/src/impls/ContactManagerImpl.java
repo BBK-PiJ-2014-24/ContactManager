@@ -231,6 +231,27 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return mList;	
 	}
 
+	@Override
+	public List<Meeting> getFutureMeetingList(Calendar date) {
+		
+		Date targetDate = date.getTime();
+		ArrayList<Meeting> mList = new ArrayList<Meeting>();
+		Comparator mComparator = new MeetingComparator();  // A Comparator for Ordering
+														   // Meetings in Chrono Order.	
+		
+		
+		for(Meeting i : meetingMap.values()){
+			Date possibleDate = i.getDate().getTime();
+			if(possibleDate.equals(targetDate)){
+				mList.add(i);
+			}
+		} // end loop
+		
+		Collections.sort(mList,mComparator);
+		
+		return mList;
+	}
+
 
 	
 
