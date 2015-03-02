@@ -160,6 +160,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 			}
 			Contact newContact = new ContactImpl(id, name, notes); 
 			contactMap.put(id, newContact);
+			lastIdUpdate = id;   // records the randomly generated ID 
 		}
 	}
 	
@@ -169,6 +170,39 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	 */
 	public int getContactMapSize(){
 		return contactMap.size();
+	}
+
+	@Override
+	public Set<Contact> getContacts(int... ids) {
+		
+		Set<Contact> set = new HashSet<Contact>();
+		
+		for(int i : ids){
+			if(contactMap.containsKey(i) == false){
+				throw new IllegalArgumentException("Invalid ID Entry");
+			}	
+			else{
+				Contact c = contactMap.get(i);
+				set.add(c);
+			} // end else				
+		} // end loops
+		return set;
+	} // end getContacts
+
+	@Override
+	public Set<Contact> getContacts(String name) throws IllegalArgumentException {
+		Set<Contact> set = new HashSet<Contact>();
+		if(name == null || name == ""){
+			throw new IllegalArgumentException("Invalid Name Entry");
+		}
+		else{
+			for(Contact i : contactMap.values()){
+				if(i.getName().equals(name)){
+					set.add(i);
+				}
+			} // end loop
+		} // end else	
+		return set;
 	}
 
 
