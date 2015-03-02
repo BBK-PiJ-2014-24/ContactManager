@@ -57,8 +57,8 @@ public class ContactManagerTest {
 	Set<Contact>harrySophieSet;
 	Set<Contact> fullContactSet;
 	
-	List<Meeting> jimMeetingList;
-	List<Meeting> harryMeetingList;
+	List<Calendar> jimMeetingList;
+	List<Calendar> harryMeetingList;
 	
 	ContactManagerImpl cm;
 	FutureMeetingImpl futMeetGood;
@@ -392,7 +392,7 @@ public class ContactManagerTest {
 			names.add("Jill");
 			names.add("Jill");
 			
-			Set<Contact> foundContacts = cm.getContacts("jill");	
+			Set<Contact> foundContacts = cm.getContacts("Jill");	
 		 for(Contact i : foundContacts){
 			assertTrue("testGetContacts - Same Names", names.contains(i.getName()));
 		 }
@@ -404,38 +404,37 @@ public class ContactManagerTest {
 		 String s = null;
 		 cm.getContacts(s);
 	 }
-	
-/*	
+	 		
 	@Test
 	// Test for getFutureMeetingList(Contact)
 	// --------------------------------------
 	public void testGetFutureMeetingContact(){
-		 int idMar15 = cm.addFutureMeeting(JimJillSet, mar15);  // add meetings to ContactManager
-		 int idApr15 = cm.addFutureMeeting(JimJillSet, apr15);
-		 int idMay15 = cm.addFutureMeeting(JimJillSet, may15);
-		 int idJun15 = cm.addFutureMeeting(JimJillSet, jun15);
-		 int idJul15 = cm.addFutureMeeting(HarrySophieSet, jul15);
-		 int idAug15 = cm.addFutureMeeting(HarrySophieSet, aug15);
+		 cm.addFutureMeeting(jimJillSet, mar15);  // add meetings to ContactManager
+		 cm.addFutureMeeting(jimJillSet, apr15);
+		 cm.addFutureMeeting(jimJillSet, may15);
+		 cm.addFutureMeeting(jimJillSet, jun15);
+		 cm.addFutureMeeting(harrySophieSet, jul15);
+		 cm.addFutureMeeting(harrySophieSet, aug15);
 		 
-		 meetingMar15 = new FutureMeetingImpl(idMar15,JimJillSet, mar15); // instant test Fut Meetings
-		 meetingApr15 = new FutureMeetingImpl(idApr15,JimJillSet, apr15);
-		 meetingMay15 = new FutureMeetingImpl(idMay15,JimJillSet, may15);
-		 meetingJun15 = new FutureMeetingImpl(idJun15,JimJillSet, jun15);
-		 meetingJul15 = new FutureMeetingImpl(idJul15,HarrySophieSet, jul15);
-		 meetingAug15 = new FutureMeetingImpl(idAug15,HarrySophieSet, aug15);
-		 
-		 jimMeetingList = new ArrayList<Meeting>();    // Create a test List for Contacts Jim, harry
-		 jimMeetingList.add(meetingMar15);
-		 jimMeetingList.add(meetingApr15);
-		 jimMeetingList.add(meetingMay15);
-		 jimMeetingList.add(meetingJun15);
+		 jimMeetingList = new ArrayList<Calendar>();    // Create a Test List for Contacts Jim, harry
+		 jimMeetingList.add(mar15);
+		 jimMeetingList.add(apr15);
+		 jimMeetingList.add(may15);
+		 jimMeetingList.add(jun15);
 		  
-		 harryMeetingList = new ArrayList<Meeting>();
-		 harryMeetingList.add(meetingJul15);
-		 harryMeetingList.add(meetingAug15);
+		 harryMeetingList = new ArrayList<Calendar>();
+		 harryMeetingList.add(jul15);
+		 harryMeetingList.add(aug15);
 		 
-		 assertEquals("test getFutureMeeting(Contact)I: ", jimMeetingList, cm.getFutureMeetingList(jim));
-		 assertEquals("test getFutureMeeting(Contact)II: ", jimMeetingList, cm.getFutureMeetingList(jim));
+		 List<Meeting> findJimList = cm.getFutureMeetingList(jim);
+		 List<Meeting> findHarryList = cm.getFutureMeetingList(harry);
+		 
+		 for(Meeting i : findJimList){
+			 assertTrue("test getFutureMeeting(Contact) for Jim: ", jimMeetingList.contains(i.getDate()));;
+		 }
+		 for(Meeting i : findHarryList){
+			 assertTrue("test getFutureMeeting(Contact) for Harry: ", harryMeetingList.contains(i.getDate()));;
+		 }	 
 	}
 	
 	@Test
@@ -443,7 +442,7 @@ public class ContactManagerTest {
 		ex.expect(IllegalArgumentException.class);
 		cm.getFutureMeetingList(gertrude);
 	}
-*/
+
 	
 	
 	
