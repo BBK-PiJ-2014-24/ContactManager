@@ -409,6 +409,34 @@ public class ContactManagerTest {
 	// Test for getFutureMeetingList(Contact)
 	// --------------------------------------
 	public void testGetFutureMeetingContact(){
+		
+		 cm.addNewContact("Harry","Likes a Drink");   //add contacts to ContactManager & get IDs
+		 int idHarry = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes White Wine");
+		 int idJill1 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes Red Wine");
+		 int idJill2 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jack", "Teetotal");
+		 cm.addNewContact("Jim", "BUSY MAN");
+		 int idJim = cm.getLastIdUpdate();
+		 cm.addNewContact("Sophie", "Angel");
+		 int idSophie = cm.getLastIdUpdate();
+		 
+		 Set<Contact> harrySet = cm.getContacts(idHarry);  // Create a Contact for Harry
+		 Set<Contact> jimSet= cm.getContacts(idJim);  // Create a Contact for Jim
+		 
+		 Contact harry=null;
+		 for(Contact i : harrySet){
+			 harry = i;
+		 }
+		 Contact jim = null;
+		 for(Contact i : jimSet){
+			 jim = i;
+		 }
+		 
+		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+		
 		 cm.addFutureMeeting(jimJillSet, mar15);  // add meetings to ContactManager
 		 cm.addFutureMeeting(jimJillSet, apr15);
 		 cm.addFutureMeeting(jimJillSet, may15);
@@ -430,15 +458,37 @@ public class ContactManagerTest {
 		 List<Meeting> findJimList = cm.getFutureMeetingList(jim);
 		 List<Meeting> findHarryList = cm.getFutureMeetingList(harry);
 		 
+		 /*
+		 Calendar cal;
+		 SimpleDateFormat myDateFormat = new SimpleDateFormat("dd/MM/yy hh:mm");
+		 for(int i=0; i<4; i++){
+			 cal = findJimList.get(i).getDate();
+			 myDateFormat.setCalendar(cal);
+			 String s = myDateFormat.format(cal.getTime());
+			 System.out.println("Jim Found " + s);
+		 }
+		 
+		 for(int i=0; i<4; i++){
+			 cal = jimMeetingList.get(i);
+			 myDateFormat.setCalendar(cal);
+			 String s = myDateFormat.format(cal.getTime());
+			 System.out.println("Jim Set " + s);
+		 }
+		 */
+		 
 		 int k=0;
 		 for(Meeting i : findJimList){
 			 assertTrue("test getFutureMeeting(Contact) for Jim: ", jimMeetingList.contains(i.getDate()));
 			 assertTrue("test Date Order getFutureMeeting(Contact) for Jim: ", jimMeetingList.get(k).equals(i.getDate()));
+			 k++;
 		 }
+		 k=0;
 		 for(Meeting i : findHarryList){
 			 assertTrue("test getFutureMeeting(Contact) for Harry: ", harryMeetingList.contains(i.getDate()));
-			 assertFalse("test Wrong Date Order getFutureMeeting(Contact) for Harry: ", jimMeetingList.get(k).equals(i.getDate()));
+			 assertFalse("test Wrong Date Order getFutureMeeting(Contact) for Harry: ", harryMeetingList.get(k).equals(i.getDate()));
+			 k++;
 		 }
+		 
 	}
 	
 	@Test
