@@ -68,7 +68,7 @@ List<Meeting> getFutureMeetingList(Calendar date);
 * @param contact one of the user’s contacts
 * @return the list of future meeting(s) scheduled with
 * @throws IllegalArgumentException if the contact does */
-//List<PastMeeting> getPastMeetingList(Contact contact);
+List<PastMeeting> getPastMeetingList(Contact contact);
 
 /**
 * Create a new record for a meeting that took place in *
