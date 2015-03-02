@@ -57,7 +57,7 @@ public interface ContactManager { /**
 *
 * @param date the date
 * @return the list of meetings */
-//List<Meeting> getFutureMeetingList(Calendar date);
+List<Meeting> getFutureMeetingList(Calendar date);
 
 /**
 * Returns the list of past meetings in which this contact has participated. *
