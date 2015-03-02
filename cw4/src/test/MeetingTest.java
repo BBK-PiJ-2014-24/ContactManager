@@ -39,13 +39,13 @@ public class MeetingTest {
 		ContactSet.add(c1);
 		ContactSet.add(c2);
 		ContactSet.add(c3);
-		Meeting m = new MeetingImpl(ContactSet, cal);
+		Meeting m = new MeetingImpl(1234, ContactSet, cal);
 		
 		
 		// tests
 		// -----
 		//m.id = 1234;
-		//assertEquals("getID() Check: ", 1234, m.getId());
+		assertEquals("getID() Check: ", 1234, m.getId());
 		assertEquals("getDate() Check: ", cal, m.getDate());
 		assertEquals("getContacts() Check: ", ContactSet, m.getContacts());
 		
