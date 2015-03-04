@@ -90,7 +90,7 @@ void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text);
 * @throws IllegalArgumentException if the meeting does not exist
 * @throws IllegalStateException if the meeting is set for a date in the future
 * @throws NullPointerException if the notes are null */
-//void addMeetingNotes(int id, String text);
+void addMeetingNotes(int id, String text);
 
 /**
 * Create a new contact with the specified name and notes. *
