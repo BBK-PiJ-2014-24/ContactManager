@@ -252,10 +252,28 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return mList;
 	}
 
-
-	
-
-
+	@Override
+	public List<PastMeeting> getPastMeetingList(Contact contact) throws IllegalArgumentException {
+		
+		ArrayList<PastMeeting> mList = new ArrayList<PastMeeting>();
+		Comparator mComparator = new MeetingComparator();  // A Comparator for Ordering
+														   // Meetings in Chrono Order.		
+		if(!contactMap.containsValue(contact)){
+			throw new IllegalArgumentException("Invalid Contact");
+		}
+		else{
+			for(Meeting i : meetingMap.values()){
+				if(i.getClass().equals(PastMeetingImpl.class)){
+					if(i.getContacts().contains(contact)){
+						mList.add((PastMeeting) i);
+					}
+				}
+			} // end loop
+		} // end else
+		Collections.sort(mList,mComparator);
+		
+		return mList;	
+	}
 
 
 	
