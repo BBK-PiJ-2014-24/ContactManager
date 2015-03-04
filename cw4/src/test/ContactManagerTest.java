@@ -7,6 +7,7 @@ import iinterfaces.Contact;
 import iinterfaces.ContactManager;
 import iinterfaces.FutureMeeting;
 import iinterfaces.Meeting;
+import iinterfaces.PastMeeting;
 import impls.ContactImpl;
 import impls.ContactManagerImpl;
 import impls.FutureMeetingImpl;
@@ -624,10 +625,10 @@ public class ContactManagerTest {
 		 harryMeetingList.add(jul14);
 		 
 		 
-		 List<Meeting> findJimList = cm.getFutureMeetingList(jim);
-		 List<Meeting> findHarryList = cm.getFutureMeetingList(harry);
+		 List<PastMeeting> findJimList = cm.getPastMeetingList(jim);
+		 List<PastMeeting> findHarryList = cm.getPastMeetingList(harry);
 		 
-		 /*
+		 
 		 Calendar cal;
 		 SimpleDateFormat myDateFormat = new SimpleDateFormat("dd/MM/yy hh:mm");
 		 for(int i=0; i<4; i++){
@@ -643,7 +644,7 @@ public class ContactManagerTest {
 			 String s = myDateFormat.format(cal.getTime());
 			 System.out.println("Jim Set " + s);
 		 }
-		 */
+		 
 		 
 		 int k=0;
 		 for(Meeting i : findJimList){
