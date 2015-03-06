@@ -17,6 +17,7 @@ import impls.PastMeetingImpl;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
@@ -84,7 +85,7 @@ public class ContactManagerTest {
 	
 	String notes;
 	String badNotes;
-	
+	String nullNotes;
 	
 	
 	@Before
@@ -158,20 +159,12 @@ public class ContactManagerTest {
 		// ----------------------
 		cm = new ContactManagerImpl();
 		
-		// Instant Meetings
-		// ----------------
-
-		 
-		 // MeetingList
-		 // -----------
-
-
-
 		// Notes
 		// -----
 		
 		notes = "Meeting went well";
 		badNotes = "";
+		nullNotes = null; 
 	}
 	
 	@Rule
@@ -628,7 +621,7 @@ public class ContactManagerTest {
 		 List<PastMeeting> findJimList = cm.getPastMeetingList(jim);
 		 List<PastMeeting> findHarryList = cm.getPastMeetingList(harry);
 		 
-		 
+/*		 
 		 Calendar cal;
 		 SimpleDateFormat myDateFormat = new SimpleDateFormat("dd/MM/yy hh:mm");
 		 for(int i=0; i<4; i++){
@@ -644,7 +637,7 @@ public class ContactManagerTest {
 			 String s = myDateFormat.format(cal.getTime());
 			 System.out.println("Jim Set " + s);
 		 }
-		 
+*/		 
 		 
 		 int k=0;
 		 for(Meeting i : findJimList){
@@ -666,10 +659,153 @@ public class ContactManagerTest {
 		cm.getFutureMeetingList(gertrude);
 	}
 		
+	@Test
+	// addMeetingNotes(id, text)
+	// --------------------------
+	public void testAddMeetingNotes(){
+		
+		cm.addNewContact("Harry","Likes a Drink");   //add contacts to ContactManager & get IDs
+		 int idHarry = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes White Wine");
+		 int idJill1 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes Red Wine");
+		 int idJill2 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jack", "Teetotal");
+		 cm.addNewContact("Jim", "BUSY MAN");
+		 int idJim = cm.getLastIdUpdate();
+		 cm.addNewContact("Sophie", "Angel");
+		 int idSophie = cm.getLastIdUpdate();
+		 
+		 
+		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+		 
+		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+		
+		 cm.addFutureMeeting(jimJillSet, calFut);  // add Meetings to ContactManager
+		 cm.addFutureMeeting(jimJillSet, mar15);  // *** We are going to change this to a past meeting **
+		 int meetingId = cm.getLastIdUpdate();
+		 
+		 cm.addFutureMeeting(jimJillSet, apr15);
+		 cm.addFutureMeeting(jimJillSet, may15);
+		 cm.addFutureMeeting(jimJillSet, jun15);
+		 cm.addNewPastMeeting(harrySophieSet, jul14, "Meeting went well");
+		 cm.addNewPastMeeting(harrySophieSet, aug14, "Meeting went well");
+		 
+		 
+		 
+		 Calendar aprFool = new GregorianCalendar(2014, 4, 1, 12, 05);
+		 Date ChangeToday = cm.ChangeTodayDate(aprFool).getTime();      // Change Today's Date for testing 
+		 cm.addMeetingNotes(meetingId, notes);
+		 PastMeeting pm = cm.getPastMeeting(meetingId);
+		 assertEquals("test addMeeting Notes - check FutureMeeting turn to Past: ", 
+				 pm.getClass().equals(PastMeeting.class));      	
+	}
+	
+	@Test   // test addMeeting Notes  - Check FutureMeeting Not In Contact Manager
+	public void testEx1AddMeetingNotes(){
+		cm.addNewContact("Harry","Likes a Drink");   //add contacts to ContactManager & get IDs
+		 int idHarry = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes White Wine");
+		 int idJill1 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes Red Wine");
+		 int idJill2 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jack", "Teetotal");
+		 cm.addNewContact("Jim", "BUSY MAN");
+		 int idJim = cm.getLastIdUpdate();
+		 cm.addNewContact("Sophie", "Angel");
+		 int idSophie = cm.getLastIdUpdate();
+		 
+		 
+		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+		 
+		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+		
+		// *** We are going to create a TEST FutureMeeting, but not add it to the ContactManager
+		 int meetingId = 1234;
+		 FutureMeeting testFM =  new FutureMeetingImpl(meetingId, jimJillSet, mar15);  
+		 
+		 cm.addFutureMeeting(jimJillSet, calFut);  // add Meetings to ContactManager
+		 cm.addFutureMeeting(jimJillSet, apr15);
+		 cm.addFutureMeeting(jimJillSet, may15);
+		 cm.addFutureMeeting(jimJillSet, jun15);
+		 cm.addNewPastMeeting(harrySophieSet, jul14, "Meeting went well");
+		 cm.addNewPastMeeting(harrySophieSet, aug14, "Meeting went well");
+		 
+		ex.expect(IllegalArgumentException.class);
+		cm.addMeetingNotes(meetingId, notes);
+	}
 	
 	
+	@Test   // test addMeeting Notes  - Check FutureMeeting Is Still Not In The Future
+	public void testEx2AddMeetingNotes(){
+		cm.addNewContact("Harry","Likes a Drink");   //add contacts to ContactManager & get IDs
+		 int idHarry = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes White Wine");
+		 int idJill1 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes Red Wine");
+		 int idJill2 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jack", "Teetotal");
+		 cm.addNewContact("Jim", "BUSY MAN");
+		 int idJim = cm.getLastIdUpdate();
+		 cm.addNewContact("Sophie", "Angel");
+		 int idSophie = cm.getLastIdUpdate();
+		 
+		 
+		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+		 
+		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+		
+		 
+		 cm.addFutureMeeting(jimJillSet, calFut);  // add Meetings to ContactManager
+		 cm.addFutureMeeting(jimJillSet, apr15);
+		 cm.addFutureMeeting(jimJillSet, may15);
+		 cm.addFutureMeeting(jimJillSet, jun15);  // ***WE ARE GOING TO TEST THIS MEETING****
+		 int meetingId =cm.getLastIdUpdate();
+		 cm.addNewPastMeeting(harrySophieSet, jul14, "Meeting went well");
+		 cm.addNewPastMeeting(harrySophieSet, aug14, "Meeting went well");
+		 
+		ex.expect(IllegalArgumentException.class);
+		cm.addMeetingNotes(meetingId, notes);
+	}
 	
 	
-	
-	
+	@Test   // test addMeeting Notes  - Check FutureMeeting Notes Are Empty
+	public void testEx3AddMeetingNotes(){
+		cm.addNewContact("Harry","Likes a Drink");   //add contacts to ContactManager & get IDs
+		 int idHarry = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes White Wine");
+		 int idJill1 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jill","Likes Red Wine");
+		 int idJill2 = cm.getLastIdUpdate();
+		 cm.addNewContact("Jack", "Teetotal");
+		 cm.addNewContact("Jim", "BUSY MAN");
+		 int idJim = cm.getLastIdUpdate();
+		 cm.addNewContact("Sophie", "Angel");
+		 int idSophie = cm.getLastIdUpdate();
+		 
+		 
+		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+		 
+		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+		
+		 
+		 cm.addFutureMeeting(jimJillSet, calFut);  // add Meetings to ContactManager
+		 cm.addFutureMeeting(jimJillSet, apr15);
+		 cm.addFutureMeeting(jimJillSet, may15);
+		 cm.addFutureMeeting(jimJillSet, jun15);  
+		 int meetingId =cm.getLastIdUpdate();
+		 cm.addNewPastMeeting(harrySophieSet, jul14, "Meeting went well");
+		 cm.addNewPastMeeting(harrySophieSet, aug14, "Meeting went well");
+		 
+		ex.expect(IllegalArgumentException.class);
+		cm.addMeetingNotes(meetingId, nullNotes);
+	}
 }
