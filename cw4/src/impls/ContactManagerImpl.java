@@ -307,7 +307,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	    if(foundMeeting == false)
 	    	throw new IllegalArgumentException("Invalid Meeting");
 	    
-	    if(targetMeeting.getDate().after(today))
+	    if(targetMeeting.getDate().getTime().after(today))
 	    	throw new IllegalArgumentException("Meeting Is Still In Future");
 	    
 	    // Grab State Info of FutureMeeting
