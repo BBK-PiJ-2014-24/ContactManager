@@ -30,19 +30,16 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	private Map<Integer,Contact> contactMap;
 	private Map<Integer, Meeting> meetingMap;
 	private int lastIdUpdate;		// Used to grab a Meeting ID for Testing.
-	
-	
+	private Calendar cal = new GregorianCalendar();  // Set Up Calendar Format
+	private TimeZone tz = TimeZone.getTimeZone("Europe/London");
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
 	
 	// Constructor
 	// -----------
 	public ContactManagerImpl(){
 		
-		Calendar cal = new GregorianCalendar();  // Set Up Calendar Format
-		TimeZone tz = TimeZone.getTimeZone("Europe/London");
 		cal.setTimeZone(tz);
 		today = cal.getTime();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
-		
 		meetingMap = new HashMap<Integer, Meeting>();   // Instant MeetingList and ContactSet
 		contactMap = new HashMap<Integer, Contact>();
 		
@@ -52,8 +49,12 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	// getter/setter
 	// -------------
 	
-	public void setTodayDate(Date newToday){   //Used Only For Testing
-		today = newToday;
+	public void setTodayDate(Calendar aprFool){   //Used Only For Testing
+		today = aprFool.getTime();
+	}
+	
+	public void resetToday(){
+		today = cal.getTime();
 	}
 	
 
@@ -71,6 +72,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 				}
 				FutureMeeting fm = new FutureMeetingImpl(id, contacts, date);
 				meetingMap.put(id, fm);
+				lastIdUpdate = id;  // recorded for testing purposes
 				return fm.getId();  // Dummy ID 
 			}
 			else{
@@ -289,8 +291,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		
 	    boolean foundMeeting = false;
 	    FutureMeeting targetMeeting = null;
-		
-	    
+		    
 	    // Testing for Exceptions
 		if(text == null){
 			throw new NullPointerException("The Notes Entry is Invalid");
@@ -309,14 +310,14 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	    if(targetMeeting.getDate().after(today))
 	    	throw new IllegalArgumentException("Meeting Is Still In Future");
 	    
-	    
-	    Set<Contact> meetingContacts = targetMeeting.getContacts(); // Obtain FutureMeeting State 
-	    Calendar meetingDate = targetMeeting.getDate();
-	    meetingMap.remove(id);      // Remove the FutureMeeting from List
+	    // Grab State Info of FutureMeeting
+	    Set<Contact> meetingContacts = targetMeeting.getContacts(); // Obtain FutureMeeting Contacts 
+	    Calendar meetingDate = targetMeeting.getDate();  // Obtain FutureMeeting Date
 	    
 	    // Instant a PastMeeting with the old FutureMeeting State
 	    PastMeeting pm = new PastMeetingImpl(id, meetingContacts, meetingDate, text); 
-	    meetingMap.put(id, pm);  // Add to the List
+	    meetingMap.put(id, pm);  // Map the new PastMeeting to where the old FutureMeeeting Was.
+	  
 				
 	}
 
