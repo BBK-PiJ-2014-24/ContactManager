@@ -48,11 +48,16 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	
 	// getter/setter
 	// -------------
-	
+	/**
+	 * Set the Today's Date to a Fictitious date in order to help With Testing 
+	 * @param aprFool - a Fictitious Today Date
+	 */
 	public void setTodayDate(Calendar aprFool){   //Used Only For Testing
 		today = aprFool.getTime();
 	}
-	
+	/**
+	 * Resets the "Today's" Date to today. 
+	 */
 	public void resetToday(){
 		today = cal.getTime();
 	}
