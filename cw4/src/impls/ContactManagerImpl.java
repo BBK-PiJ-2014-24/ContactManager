@@ -47,6 +47,15 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		contactMap = new HashMap<Integer, Contact>();
 		
 	}
+	
+	
+	// getter/setter
+	// -------------
+	
+	public void setTodayDate(Date newToday){   //Used Only For Testing
+		today = newToday;
+	}
+	
 
 	// addFutureMeeting()
 	// ------------------
@@ -273,6 +282,42 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		Collections.sort(mList,mComparator);
 		
 		return mList;	
+	}
+
+	@Override
+	public void addMeetingNotes(int id, String text) throws IllegalArgumentException, NullPointerException{
+		
+	    boolean foundMeeting = false;
+	    FutureMeeting targetMeeting = null;
+		
+	    
+	    // Testing for Exceptions
+		if(text == null){
+			throw new NullPointerException("The Notes Entry is Invalid");
+		}
+			    
+	    for(Integer i : meetingMap.keySet()){
+	    	if(i == id){
+	    		foundMeeting = true;
+	    		targetMeeting = (FutureMeeting) meetingMap.get(id);
+	    		break;
+	    	}
+	    }
+	    if(foundMeeting == false)
+	    	throw new IllegalArgumentException("Invalid Meeting");
+	    
+	    if(targetMeeting.getDate().after(today))
+	    	throw new IllegalArgumentException("Meeting Is Still In Future");
+	    
+	    
+	    Set<Contact> meetingContacts = targetMeeting.getContacts(); // Obtain FutureMeeting State 
+	    Calendar meetingDate = targetMeeting.getDate();
+	    meetingMap.remove(id);      // Remove the FutureMeeting from List
+	    
+	    // Instant a PastMeeting with the old FutureMeeting State
+	    PastMeeting pm = new PastMeetingImpl(id, meetingContacts, meetingDate, text); 
+	    meetingMap.put(id, pm);  // Add to the List
+				
 	}
 
 
