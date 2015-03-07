@@ -39,7 +39,7 @@ public class MeetingTest {
 		ContactSet.add(c1);
 		ContactSet.add(c2);
 		ContactSet.add(c3);
-		Meeting m = new MeetingImpl(1234, ContactSet, cal);
+		MeetingImpl m = new MeetingImpl(1234, ContactSet, cal);
 		
 		
 		
@@ -50,7 +50,8 @@ public class MeetingTest {
 		assertEquals("getDate() Check: ", cal, m.getDate());
 		assertEquals("getContacts() Check: ", ContactSet, m.getContacts());
 		
-		System.out.println(m.toString);
+		assertEquals("toString() check: ", "1234" + ", " + cal + ", " + ContactSet.toString(), 
+				      m.toString());
 		
 		
 	}
