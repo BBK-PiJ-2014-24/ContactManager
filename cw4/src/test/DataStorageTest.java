@@ -208,7 +208,7 @@ public class DataStorageTest {
 			}
 		}
 		
-		
+		@Test
 		public void testContactStorage(){
 			assertEquals("testContactStorage Size: ", contactList.size(), ds.getContactData().size());
 			for(Integer i : contactList){
