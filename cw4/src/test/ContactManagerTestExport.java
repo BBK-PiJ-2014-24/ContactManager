@@ -258,11 +258,21 @@ public class ContactManagerTestExport {
 		 cm2 = new ContactManagerImpl();
 	}
 	
+	
+	@Test
+	public void testMakeContact(){
+		String s = "1234, Harry, " + notes;
+		Contact c = cm.makeContact(c);
+		assertEquals("test makeContact check id: ",1234, c.getId());
+		assertEquals("test makeContact check name: ", "Harry", c.getName());
+		assertEquals("test makeContact check notes: ", notes, c.getNotes());
+	}
+	
 	@Test
 	public void testMeetingExport(){
 	
-		mMap = cm2.getMeeptMap();
-		assertEquals("testMeetingMap Size: ",idMeetingList.size(), cm2.getMeetingMapSize());
+		mMap = cm2.getMeetingMap();
+		assertEquals("testMeetingMap Size: ",idMeetingList.size(), mMap.size());
 		for(Meeting i:mMap.getKey()){
 			assertTrue("testMeetingMap Content: ", idMeetingList.contains(i));
 		}
