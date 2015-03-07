@@ -64,6 +64,10 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		today = cal.getTime();
 	}
 	
+	public DataStorage getDatStorage(){
+		return dataStorage;
+	}
+	
 
 	// addFutureMeeting()
 	// ------------------
