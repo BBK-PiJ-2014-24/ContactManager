@@ -48,4 +48,10 @@ public class MeetingImpl implements Meeting {
 	public Set<Contact> getContacts() {
 		return contactSet;
 	}
+	
+	@Override
+	public String toString(){
+		return ""+ id + ", " + date + ", " + contactSet ;
+	}
+	
 }
