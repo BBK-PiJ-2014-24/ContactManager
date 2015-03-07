@@ -72,6 +72,22 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return dataStorage;
 	}
 	
+	/**
+	 * A Getter for meetingMap, the map of meetings contained in ContactManager
+	 * @return the map(id, Meeting)
+	 */
+	public Map<Integer, Meeting> getMeetingMap(){
+		return meetingMap;
+	}
+	
+	/**
+	 * A Getter for contactMap, the map of Contact contained in ContactManager
+	 * @return the map(id, Contact)
+	 */	
+	public Map<Integer, Contact> getContactMap(){
+		return contactMap;
+	}
+	
 
 	// addFutureMeeting()
 	// ------------------
@@ -331,16 +347,16 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	    
 	    // Instant a PastMeeting with the old FutureMeeting State
 	    PastMeeting pm = new PastMeetingImpl(id, meetingContacts, meetingDate, text); 
-	    meetingMap.put(id, pm);  // Map the new PastMeeting to where the old FutureMeeeting Was.
-	    
-	 		
+	    meetingMap.put(id, pm);  // Map the new PastMeeting to where the old FutureMeeeting Was.	 		
 	}
-
 
 	@Override
 	public void flush() {	
 		dataStorage.setMeetingData(meetingMap);
 		dataStorage.setContactData(contactMap);
+		
+		
+		
 	}
 
 
