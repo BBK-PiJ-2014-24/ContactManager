@@ -7,6 +7,7 @@ import iinterfaces.FutureMeeting;
 import iinterfaces.Meeting;
 import impls.ContactImpl;
 import impls.ContactManagerImpl;
+import impls.DataStorageImpl;
 import impls.FutureMeetingImpl;
 import impls.PastMeetingImpl;
 
