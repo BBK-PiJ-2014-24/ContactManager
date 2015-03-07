@@ -116,7 +116,7 @@ public class DataStorageTest {
 			// --------------
 			
 			cm = new ContactManagerImpl();
-			ds = new DataStorageImpl();
+			ds = cm.getDatStorage();
 					
 			// Create Contacts
 			// ------------
