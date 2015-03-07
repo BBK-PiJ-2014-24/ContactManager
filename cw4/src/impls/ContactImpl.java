@@ -49,4 +49,9 @@ public class ContactImpl implements Contact{
 		return id;
 	}
 	
+	@Override
+	public String toString(){
+		return id + ", " + name + ", " + notes;
+	}
+	
 }
