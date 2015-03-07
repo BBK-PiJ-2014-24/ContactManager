@@ -16,6 +16,7 @@ import java.util.TimeZone;
 
 import iinterfaces.Contact;
 import iinterfaces.ContactManager;
+import iinterfaces.DataStorage;
 import iinterfaces.FutureMeeting;
 import iinterfaces.Meeting;
 import iinterfaces.MeetingList;
@@ -33,6 +34,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	private Calendar cal = new GregorianCalendar();  // Set Up Calendar Format
 	private TimeZone tz = TimeZone.getTimeZone("Europe/London");
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
+	private DataStorage dataStorage;
 	
 	// Constructor
 	// -----------
@@ -42,7 +44,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		today = cal.getTime();
 		meetingMap = new HashMap<Integer, Meeting>();   // Instant MeetingList and ContactSet
 		contactMap = new HashMap<Integer, Contact>();
-		
+		dataStorage = new DataStorageImpl();
 	}
 	
 	
@@ -322,8 +324,15 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	    // Instant a PastMeeting with the old FutureMeeting State
 	    PastMeeting pm = new PastMeetingImpl(id, meetingContacts, meetingDate, text); 
 	    meetingMap.put(id, pm);  // Map the new PastMeeting to where the old FutureMeeeting Was.
-	  
-				
+	    
+	 		
+	}
+
+
+	@Override
+	public void flush() {	
+		dataStorage.setMeetingData(meetingMap);
+		dataStorage.setContactData(contactMap);
 	}
 
 
