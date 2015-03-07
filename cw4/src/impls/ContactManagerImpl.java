@@ -58,12 +58,16 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		today = aprFool.getTime();
 	}
 	/**
-	 * Resets the "Today's" Date to today. 
+	 * A Setter - Resets the "Today's" Date to today. 
 	 */
 	public void resetToday(){
 		today = cal.getTime();
 	}
 	
+	/**
+	 * a Getter - Returns the DataStorage Object storing the Meeting and Contact Maps.
+	 * @return Returns the DataStorage Object storing the Meeting and Contact Maps.
+	 */
 	public DataStorage getDatStorage(){
 		return dataStorage;
 	}
