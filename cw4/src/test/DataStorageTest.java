@@ -194,6 +194,8 @@ public class DataStorageTest {
 			 
 			 cm.addFutureMeeting(harrySophieSet, aug15);
 			 idMeetingList.add(cm.getLastIdUpdate());
+			 
+			 cm.flush();
 		}
 		
 		@Test
