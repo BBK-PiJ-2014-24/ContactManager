@@ -1,12 +1,13 @@
 package impls;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import iinterfaces.Contact;
 import iinterfaces.DataStorage;
 import iinterfaces.Meeting;
 
-public class DataStorageImpl implements DataStorage{
+public class DataStorageImpl implements DataStorage, Serializable{
 
 	// Fields
 	// ------
