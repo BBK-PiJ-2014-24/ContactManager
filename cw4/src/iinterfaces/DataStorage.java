@@ -31,7 +31,7 @@ public interface DataStorage {
 	 * Setter for Contact Data. Map of Contact Data
 	 * @param Map of Contact. Contact id as key and Contact as values
 	 */
-	public void setContactData(Map<Integer,Meeting> m);
+	public void setContactData(Map<Integer,Contact> c);
 	
 	
 }
