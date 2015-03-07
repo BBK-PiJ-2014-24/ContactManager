@@ -42,12 +42,15 @@ public class MeetingTest {
 		Meeting m = new MeetingImpl(1234, ContactSet, cal);
 		
 		
+		
 		// tests
 		// -----
 		//m.id = 1234;
 		assertEquals("getID() Check: ", 1234, m.getId());
 		assertEquals("getDate() Check: ", cal, m.getDate());
 		assertEquals("getContacts() Check: ", ContactSet, m.getContacts());
+		
+		System.out.println(m.toString);
 		
 		
 	}
