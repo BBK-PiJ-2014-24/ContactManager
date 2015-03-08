@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -389,15 +390,24 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 			
 			for(Contact i : contactMap.values()){
 				bw.write(i.toString());
+				System.out.println( i.toString());
 			} // end loop
 			
 			for(Meeting i : meetingMap.values()){
 				bw.write(i.toString());
 			} // end loop
 		}// end try
-		catch (IOException ex){
-				System.out.println("File Not Writable");
-				ex.printStackTrace();
+		catch (IOException ex1){
+				System.out.println("File Not Writable: " + file.toString());
+				ex1.printStackTrace();
+		}
+		finally{
+			try{
+				bw.close();
+			}
+			catch(IOException ex2){
+				System.out.println("File Can't Be Closes");
+			}
 		}
 	} // end flush()
 		
@@ -421,8 +431,8 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		*/
 	
 	/**
-	 * Instantiates a Contact Object From a String of Arguments
-	 * @param strInput a String of Contact parameters (id,name,notes). String delimiter is ","
+	 * Instantiates a Contact Object From Arguments formatted in a String
+	 * @param strInput a String of Contact arguments (id,name,notes). String delimiter is ","
 	 * @return a Contact Object with states specified in strInput 
 	 */
 	public Contact makeContact(String strInput){
@@ -438,6 +448,60 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		Contact c = new ContactImpl(id, name, notes);
 		
 		return c;
+	}
+	/**
+	 * Instantiates a Future or PastMeeting Object from Arguments formatted in a String
+	 * @param strInput a String of Meeting arguments (id,date, contacts + optional notes). String delimiter is ","
+	 * @return a Future or PastMeeting Object.
+	 */
+	public<T extends Meeting> T makeMeeting(String strInput){
+		
+		// id + "," + date + "," + contactSet 
+		
+		String delim = ",";
+		StringTokenizer inputStream = new StringTokenizer(strInput, delim);
+		
+		String tok1 = inputStream.nextToken();  // convert String to Meeting id
+		int id = Integer.parseInt(tok1);
+		
+		String tok2 = inputStream.nextToken();   // convert String to Meeting Calendar
+		Date recoverDate = null;
+		try {
+			recoverDate = sdf.parse(tok2);
+		} catch (ParseException e) {
+			System.out.println("Failure to Parse Date");
+			e.printStackTrace();
+		}
+		Calendar meetingCal = Calendar.getInstance();
+		meetingCal.setTime(recoverDate);
+		
+		
+		Set<Contact> cSet = new HashSet<Contact>(); // convert String to a Set of Contacts
+		boolean endOfContactList = false;
+		while(!endOfContactList){
+			String tokcId = inputStream.nextToken();
+			if(tokcId.charAt(0) == '[' || tokcId.charAt(0) == ' ')  // Check if beginning of set
+				tokcId= tokcId.substring(1); // remove [ from first token = Contact ID.
+			String tokcName = inputStream.nextToken(); // = Contact Name
+			String tokcNotes = inputStream.nextToken(); // = Contact Notes
+			if(tokcNotes.charAt(tokcNotes.length()-1) == ']'){  // Check if last of set
+				tokcNotes = tokcNotes.substring(0,tokcNotes.length()-1);  // if so, remove ]
+				endOfContactList = true;
+			}
+			String contactString = tokcId + "," + tokcName + "," + tokcNotes;
+			Contact c = makeContact(contactString);
+			cSet.add(c);
+		} // end while
+		
+		if(inputStream.hasMoreTokens()){
+			String meetingNotes = inputStream.nextToken();
+			PastMeeting pm = new PastMeetingImpl(id, cSet, meetingCal, meetingNotes);
+			return (T) pm;
+		}
+		else{
+			FutureMeeting fm = new FutureMeetingImpl(id, cSet, meetingCal);
+			return (T) fm;
+		}
 	}
 
 
