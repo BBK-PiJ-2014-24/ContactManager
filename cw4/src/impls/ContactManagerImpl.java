@@ -389,12 +389,12 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 			bw = new BufferedWriter(fw);
 			
 			for(Contact i : contactMap.values()){
-				bw.write(i.toString());
+				bw.write(i.toString() + "\n");
 				System.out.println( i.toString());
 			} // end loop
 			
 			for(Meeting i : meetingMap.values()){
-				bw.write(i.toString());
+				bw.write(i.toString() + "\n");
 			} // end loop
 		}// end try
 		catch (IOException ex1){
