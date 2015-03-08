@@ -272,7 +272,7 @@ public class ContactManagerTestExport {
 	@Test
 	public void testMakeMeeting(){
 		String s = fm1.toString();
-		Meeting m = cm.makeMeeting(s);
+		FutureMeeting m = cm.makeMeeting(s);
 		assertEquals("test makeMeeting check id: ",fm1.getId(), m.getId());
 		assertEquals("test makeMeeting check calendar: ", fm1.getDate(), m.getDate());
 		assertEquals("test makeMeeting check contacts: ", fm1.getContacts(), m.getContacts());
