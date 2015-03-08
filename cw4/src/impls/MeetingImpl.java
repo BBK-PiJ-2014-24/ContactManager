@@ -55,9 +55,9 @@ public class MeetingImpl implements Meeting {
 	@Override
 	public String toString(){
 		
-		TimeZone tz = TimeZone.getTimeZone("Europe/London");
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
-		String dateString = sdf.format(date);
+		String dateString = sdf.format(date.getTime());
 		
 		return ""+ id + "," + dateString + "," + contactSet ;
 	}
