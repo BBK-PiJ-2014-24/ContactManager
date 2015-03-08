@@ -59,7 +59,7 @@ public class MeetingImpl implements Meeting {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
 		String dateString = sdf.format(date.getTime());
 		
-		return ""+ id + "," + dateString + "," + contactSet ;
+		return id + "," + dateString + "," + contactSet ;
 	}
 	
 }
