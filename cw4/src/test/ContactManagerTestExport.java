@@ -246,6 +246,7 @@ public class ContactManagerTestExport {
 
 		 idMeetingList = new ArrayList<Meeting>(); // Stored for testing
 		 idMeetingList.add(pm1);
+		 idMeetingList.add(fm1);
 		 idMeetingList.add(fm2);
 		 idMeetingList.add(fm3);
 		 idMeetingList.add(fm4);
@@ -254,18 +255,19 @@ public class ContactManagerTestExport {
 		 idMeetingList.add(fm7);
 		 idMeetingList.add(fm8);
 		 
+		 String notes = "Likes a Drink";
 		 cm.flush();
 		 cm2 = new ContactManagerImpl();
 	}
 	
-	
 	@Test
 	public void testMakeContact(){
-		String s = "1234, Harry, " + notes;
-		Contact c = cm.makeContact(c);
+		String s = "1234,Harry,Likes a Drink";
+		Contact c = cm.makeContact(s);
 		assertEquals("test makeContact check id: ",1234, c.getId());
 		assertEquals("test makeContact check name: ", "Harry", c.getName());
-		assertEquals("test makeContact check notes: ", notes, c.getNotes());
+		System.out.println(c.toString());
+		assertEquals("test makeContact check notes: ", "Likes a Drink", c.getNotes());
 	}
 	
 	@Test
