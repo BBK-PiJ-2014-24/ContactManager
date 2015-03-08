@@ -496,13 +496,19 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		if(inputStream.hasMoreTokens()){
 			String meetingNotes = inputStream.nextToken();
 			PastMeeting pm = new PastMeetingImpl(id, cSet, meetingCal, meetingNotes);
+			meetingMap.put(id, pm);
 			return (T) pm;
 		}
 		else{
 			FutureMeeting fm = new FutureMeetingImpl(id, cSet, meetingCal);
+			meetingMap.put(id, fm);
 			return (T) fm;
 		}
 	}
+	
+	
+	
+
 
 
 	
