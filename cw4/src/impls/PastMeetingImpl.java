@@ -31,5 +31,11 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 		this.notes = notes;
 	}
 	
+	@Override
+	public String toString(){
+		 String s = super.toString();
+		 return s + notes;
+	}
+	
 	
 }
