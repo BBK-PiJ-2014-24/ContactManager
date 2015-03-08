@@ -1,7 +1,10 @@
 package impls;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Set;
+import java.util.TimeZone;
 
 import iinterfaces.Contact;
 import iinterfaces.Meeting;
@@ -51,7 +54,12 @@ public class MeetingImpl implements Meeting {
 	
 	@Override
 	public String toString(){
-		return ""+ id + "," + date + "," + contactSet ;
+		
+		TimeZone tz = TimeZone.getTimeZone("Europe/London");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
+		String dateString = sdf.format(date);
+		
+		return ""+ id + "," + dateString + "," + contactSet ;
 	}
 	
 }
