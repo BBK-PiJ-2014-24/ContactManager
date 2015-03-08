@@ -92,6 +92,7 @@ public class ContactManagerTestExport {
 	ArrayList<Meeting> idMeetingList;
 	ArrayList<Contact> contactList;
 	ArrayList<Integer> jimJackIds;
+	ArrayList<Integer> harryJillIds;
 	
 	Map<Integer, Contact> cMap;
 	Map<Integer, Meeting> mMap;
@@ -190,7 +191,8 @@ public class ContactManagerTestExport {
 		 Set<Contact> guySet = 	new HashSet<Contact>();	
 		 Set<Contact> markSet = new HashSet<Contact>();	
 		 
-		harrySet.add(c1);
+		harrySet.add(c1); 
+		harrySet.add(c2); // add Jill1 to harrySet
 		jill1Set.add(c2);
 		jill2Set.add(c3);
 		jackSet.add(c4);
@@ -207,6 +209,10 @@ public class ContactManagerTestExport {
 		jimJackIds = new ArrayList<Integer>();
 		jimJackIds.add(id4);
 		jimJackIds.add(id5);
+		
+		harryJillIds = new ArrayList<Integer>();
+		harryJillIds.add(id1);
+		harryJillIds.add(id2);
 		
 		// Create Meetings
 		// ---------------
@@ -275,8 +281,6 @@ public class ContactManagerTestExport {
 	@Test
 	public void testMakeFutureMeeting(){
 		String s = fm3.toString();
-		System.out.println("+++ FM3 "  + s);
-		System.out.println("jimjack"+ jimJackIds.toString());
 		FutureMeeting m = cm.makeMeeting(s);
 		assertEquals("test makeMeeting check id: ", fm3.getId(), m.getId());
 		assertEquals("test makeMeeting check calendar: ", fm3.getDate(), m.getDate());
@@ -288,10 +292,15 @@ public class ContactManagerTestExport {
 	@Test
 	public void testMakePastMeeting(){
 		String s = pm1.toString();
-		//PastMeeting m = cm.makeMeeting(s);
+		PastMeeting m = cm.makeMeeting(s);
+		System.out.println("+++ PM "  + s);
+		System.out.println("harryJillids" + harryJillIds.toString());
 		assertEquals("test makeMeeting check id: ", pm1.getId(), m.getId());
 		assertEquals("test makeMeeting check calendar: ", pm1.getDate(), m.getDate());
-		assertEquals("test makeMeeting check contacts: ", pm1.getContacts(), m.getContacts());
+		for(Contact i : m.getContacts()){
+			assertTrue("test makeMeeting check contacts: ", harryJillIds.contains(i.getId()));
+		}
+		assertEquals("test makeMeeting check notes: ", pm1.getNotes(), m.getNotes());
 	}
 	
 	
