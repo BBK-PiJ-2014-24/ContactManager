@@ -51,7 +51,7 @@ public class ContactImpl implements Contact{
 	
 	@Override
 	public String toString(){
-		return id + ", " + name + ", " + notes;
+		return id + "," + name + "," + notes;
 	}
 	
 }
