@@ -446,7 +446,9 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		String notes = inputStream.nextToken();
 		
 		Contact c = new ContactImpl(id, name, notes);
-		contactMap.put(id, c);
+		boolean checkInMap = copyContact(c);
+		if(!checkInMap)
+			contactMap.put(id, c);
 		return c;
 	}
 	/**
@@ -504,6 +506,21 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 			meetingMap.put(id, fm);
 			return (T) fm;
 		}
+	}
+	
+	/**
+	 * A private method that checks if Contact is already in the ContactManager's contactMap 
+	 * database by checking its id.
+	 * @param c Contact to be tested if it is in the ContactManager's contactMap database
+	 * @return return true if Contact c is a copy of an ContactManager's contactMap 
+	 * database otherwise false
+	 */
+	private boolean copyContact(Contact c){
+		
+		if(contactMap.containsKey(c.getId())){
+				return true;
+		}
+		return false;	
 	}
 	
 	
