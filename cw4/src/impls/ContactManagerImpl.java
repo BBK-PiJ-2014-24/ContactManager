@@ -495,21 +495,25 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 			cSet.add(c);
 		} // end while
 		
+		boolean checkInMap = false;
 		if(inputStream.hasMoreTokens()){
 			String meetingNotes = inputStream.nextToken();
 			PastMeeting pm = new PastMeetingImpl(id, cSet, meetingCal, meetingNotes);
-			meetingMap.put(id, pm);
+			checkInMap = copyMeeting(pm);
+			if(!checkInMap)
+				meetingMap.put(id, pm);
 			return (T) pm;
 		}
 		else{
 			FutureMeeting fm = new FutureMeetingImpl(id, cSet, meetingCal);
-			meetingMap.put(id, fm);
+			if(!checkInMap)
+				meetingMap.put(id, fm);
 			return (T) fm;
 		}
 	}
 	
 	/**
-	 * A private method that checks if Contact is already in the ContactManager's contactMap 
+	 * A private method that checks if  aContact is already in the ContactManager's contactMap 
 	 * database by checking its id.
 	 * @param c Contact to be tested if it is in the ContactManager's contactMap database
 	 * @return return true if Contact c is a copy of an ContactManager's contactMap 
@@ -521,6 +525,21 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 				return true;
 		}
 		return false;	
+	}
+	
+	/**
+	 * A private method that checks if a Meeting is already in the ContactManager's meetingMap 
+	 * database by checking its id.
+	 * @param m Meeting to be tested if it is in the ContactManager's contactMap database
+	 * @return return true if Contact c is a copy of an ContactManager's contactMap 
+	 * database otherwise false
+	 */
+	private boolean copyMeeting(Meeting m){
+		
+		if(meetingMap.containsKey(m.getId())){
+			return true;
+		}
+		return false;
 	}
 	
 	
