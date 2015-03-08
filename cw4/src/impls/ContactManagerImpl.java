@@ -446,7 +446,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		String notes = inputStream.nextToken();
 		
 		Contact c = new ContactImpl(id, name, notes);
-		
+		contactMap.put(id, c);
 		return c;
 	}
 	/**
