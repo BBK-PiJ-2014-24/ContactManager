@@ -69,7 +69,7 @@ public class ContactManagerTestExport {
 	List<Calendar> jimMeetingList;
 	List<Calendar> harryMeetingList;
 	
-	FutureMeetingImpl futMeetGood;
+	FutureMeetingImpl fm1;
 	FutureMeetingImpl futMeetBad;
 	PastMeetingImpl pastMeetGood;
 	PastMeetingImpl pastMeetBad;
@@ -266,9 +266,18 @@ public class ContactManagerTestExport {
 		Contact c = cm.makeContact(s);
 		assertEquals("test makeContact check id: ",1234, c.getId());
 		assertEquals("test makeContact check name: ", "Harry", c.getName());
-		System.out.println(c.toString());
 		assertEquals("test makeContact check notes: ", "Likes a Drink", c.getNotes());
 	}
+	
+	@Test
+	public void testMakeMeeting(){
+		String s = fm1.toString();
+		Meeting m = cm.makeMeeting(s);
+		assertEquals("test makeMeeting check id: ",fm1.getId(), m.getId());
+		assertEquals("test makeMeeting check calendar: ", fm1.getDate(), m.getDate());
+		assertEquals("test makeMeeting check contacts: ", fm1.getContacts(), m.getContacts());
+	}
+	
 	
 	@Test
 	public void testMeetingExport(){
