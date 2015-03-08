@@ -70,9 +70,7 @@ public class ContactManagerTestExport {
 	List<Calendar> harryMeetingList;
 	
 	FutureMeetingImpl fm1;
-	FutureMeetingImpl futMeetBad;
-	PastMeetingImpl pastMeetGood;
-	PastMeetingImpl pastMeetBad;
+	PastMeeting pm1; 
 	Meeting m;
 	
 	FutureMeeting meetingMar15;
@@ -210,11 +208,11 @@ public class ContactManagerTestExport {
 		 
 		 cm.addNewPastMeeting(harrySet, calPast,"Meeting went well");
 		 int id1pm = cm.getLastIdUpdate();
-		 PastMeeting pm1 = new PastMeetingImpl(id1pm, harrySet, calPast,"Meeting went well");
+		 pm1 = new PastMeetingImpl(id1pm, harrySet, calPast,"Meeting went well");
 		 
 		 cm.addFutureMeeting(jill1Set , mar15);
 		 int id1m = cm.getLastIdUpdate();
-		 FutureMeeting fm1 = new FutureMeetingImpl(id1m,jill1Set , mar15);
+		 fm1 = new FutureMeetingImpl(id1m,jill1Set , mar15);
 		 
 		 cm.addFutureMeeting(jill2Set, mar15);
 		 int id2m = cm.getLastIdUpdate();
@@ -270,12 +268,21 @@ public class ContactManagerTestExport {
 	}
 	
 	@Test
-	public void testMakeMeeting(){
+	public void testMakeFutureMeeting(){
 		String s = fm1.toString();
 		FutureMeeting m = cm.makeMeeting(s);
-		assertEquals("test makeMeeting check id: ",fm1.getId(), m.getId());
+		assertEquals("test makeMeeting check id: ", fm1.getId(), m.getId());
 		assertEquals("test makeMeeting check calendar: ", fm1.getDate(), m.getDate());
 		assertEquals("test makeMeeting check contacts: ", fm1.getContacts(), m.getContacts());
+	}
+	
+	@Test
+	public void testMakePasMeeting(){
+		String s = pm1.toString();
+		PastMeeting m = cm.makeMeeting(s);
+		assertEquals("test makeMeeting check id: ", pm1.getId(), m.getId());
+		assertEquals("test makeMeeting check calendar: ", pm1.getDate(), m.getDate());
+		assertEquals("test makeMeeting check contacts: ", pm1.getContacts(), m.getContacts());
 	}
 	
 	
