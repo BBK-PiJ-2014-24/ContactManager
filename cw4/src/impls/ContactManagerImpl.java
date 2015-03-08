@@ -1,5 +1,11 @@
 package impls;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,7 +18,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.TimeZone;
+
+import org.junit.Test;
 
 import iinterfaces.Contact;
 import iinterfaces.ContactManager;
@@ -153,7 +162,8 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		}
 	} //end addNewPastMeeting
 	
-	
+	// getPastMeeting(id)
+	// -------------------
 	@Override
 	public PastMeeting getPastMeeting(int id) {
 		Meeting FoundMeeting;
@@ -172,7 +182,8 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		}
 	}
 	
-	
+	// getLastIdUpdate()
+	// -----------------
 	/**
 	 * returns the latest ID number when a new Meeting Object has been Instantiated.
 	 * @return ID of the last Instant Meeting
@@ -181,6 +192,9 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return lastIdUpdate;
 	}
 
+	
+	// getMeeting(id)
+	// --------------
 	@Override
 	public Meeting getMeeting(int id) {
 		Meeting FoundMeeting;
@@ -188,6 +202,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return FoundMeeting;
 	}
 
+	// addNewContact(name, notes)
 	@Override
 	public void addNewContact(String name, String notes) throws IllegalArgumentException {
 		
@@ -216,6 +231,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return contactMap.size();
 	}
 
+	// getContacts(ids..)
 	@Override
 	public Set<Contact> getContacts(int... ids) {
 		
@@ -233,6 +249,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return set;
 	} // end getContacts
 
+	// getContacts(name)
 	@Override
 	public Set<Contact> getContacts(String name) throws IllegalArgumentException {
 		Set<Contact> set = new HashSet<Contact>();
@@ -249,6 +266,8 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return set;
 	}
 
+	// getFutureMeetingList(contact)
+	// -----------------------------
 	@Override
 	public List<Meeting> getFutureMeetingList(Contact contact) throws IllegalArgumentException {
 		
@@ -273,6 +292,8 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return mList;	
 	}
 
+	// getFutureMeetingList(date)
+	// --------------------------
 	@Override
 	public List<Meeting> getFutureMeetingList(Calendar date) {
 		
@@ -294,6 +315,8 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return mList;
 	}
 
+	// getPastMeetingList(Contact)
+	// ---------------------------
 	@Override
 	public List<PastMeeting> getPastMeetingList(Contact contact) throws IllegalArgumentException {
 		
@@ -317,6 +340,8 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return mList;	
 	}
 
+	// addMeetingNotes(id, text)
+	// -------------------------
 	@Override
 	public void addMeetingNotes(int id, String text) throws IllegalArgumentException, NullPointerException{
 		
@@ -350,20 +375,77 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	    meetingMap.put(id, pm);  // Map the new PastMeeting to where the old FutureMeeeting Was.	 		
 	}
 
+	// flush()
+	// -------
 	@Override
 	public void flush() {	
+		
+		File file = new File("Contacts.txt");
+		BufferedWriter bw = null;
+		
+		try{
+			FileWriter fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
+			
+			for(Contact i : contactMap.values()){
+				bw.write(i.toString());
+			} // end loop
+			
+			for(Meeting i : meetingMap.values()){
+				bw.write(i.toString());
+			} // end loop
+		}// end try
+		catch (IOException ex){
+				System.out.println("File Not Writable");
+				ex.printStackTrace();
+		}
+	} // end flush()
+		
+		
+		/*
 		dataStorage.setMeetingData(meetingMap);
 		dataStorage.setContactData(contactMap);
 		
+		try{
+			FileOutputStream fs = new FileOutputStream("Contacts.txt");
+			System.out.println("FileOutputStream");
+			ObjectOutputStream os = new ObjectOutputStream(fs);
+			System.out.println("ObjectOutputStream");
+			os.writeObject(dataStorage);
+			System.out.println("WRITE");
+			os.close();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		*/
+	
+	/**
+	 * Instantiates a Contact Object From a String of Arguments
+	 * @param strInput a String of Contact parameters (id,name,notes). String delimiter is ","
+	 * @return a Contact Object with states specified in strInput 
+	 */
+	public Contact makeContact(String strInput){
+				
+		String delim = ",";
+		StringTokenizer inputStream = new StringTokenizer(strInput, delim);
 		
+		String tok1 = inputStream.nextToken();
+		int id = Integer.parseInt(tok1);
+		String name = inputStream.nextToken();
+		String notes = inputStream.nextToken();
 		
+		Contact c = new ContactImpl(id, name, notes);
+		
+		return c;
 	}
 
 
 	
-	
-
-	
-
-	
 }
+	
+	
+
+	
+
+
