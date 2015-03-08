@@ -70,6 +70,7 @@ public class ContactManagerTestExport {
 	List<Calendar> harryMeetingList;
 	
 	FutureMeetingImpl fm1;
+	FutureMeetingImpl fm3;
 	PastMeeting pm1; 
 	Meeting m;
 	
@@ -90,6 +91,7 @@ public class ContactManagerTestExport {
 	
 	ArrayList<Meeting> idMeetingList;
 	ArrayList<Contact> contactList;
+	ArrayList<Integer> jimJackIds;
 	
 	Map<Integer, Contact> cMap;
 	Map<Integer, Meeting> mMap;
@@ -192,20 +194,23 @@ public class ContactManagerTestExport {
 		jill1Set.add(c2);
 		jill2Set.add(c3);
 		jackSet.add(c4);
+		jackSet.add(c5);  // add Jim to Jack set
 		jimSet.add(c5);
 		sophieSet.add(c6);
 		alanSet.add(c7);
 		guySet.add(c8);
 		markSet.add(c9);
 
+		// List of id's for jack set
+		// -------------------------
 		
-		
+		jimJackIds = new ArrayList<Integer>();
+		jimJackIds.add(id4);
+		jimJackIds.add(id5);
 		
 		// Create Meetings
 		// ---------------
-		
-		 
-		 
+	
 		 cm.addNewPastMeeting(harrySet, calPast,"Meeting went well");
 		 int id1pm = cm.getLastIdUpdate();
 		 pm1 = new PastMeetingImpl(id1pm, harrySet, calPast,"Meeting went well");
@@ -220,7 +225,7 @@ public class ContactManagerTestExport {
 		 
 		 cm.addFutureMeeting(jackSet, apr15);
 		 int id3m = cm.getLastIdUpdate();
-		 FutureMeeting fm3 = new FutureMeetingImpl(id3m, jackSet, apr15);
+		 fm3 = new FutureMeetingImpl(id3m, jackSet, apr15);
 		 
 		 cm.addFutureMeeting(jimSet, may15);
 		 int id4m = cm.getLastIdUpdate();
@@ -269,17 +274,21 @@ public class ContactManagerTestExport {
 	
 	@Test
 	public void testMakeFutureMeeting(){
-		String s = fm1.toString();
+		String s = fm3.toString();
+		System.out.println("+++ FM3 "  + s);
+		System.out.println("jimjack"+ jimJackIds.toString());
 		FutureMeeting m = cm.makeMeeting(s);
-		assertEquals("test makeMeeting check id: ", fm1.getId(), m.getId());
-		assertEquals("test makeMeeting check calendar: ", fm1.getDate(), m.getDate());
-		assertEquals("test makeMeeting check contacts: ", fm1.getContacts(), m.getContacts());
+		assertEquals("test makeMeeting check id: ", fm3.getId(), m.getId());
+		assertEquals("test makeMeeting check calendar: ", fm3.getDate(), m.getDate());
+		for(Contact i : m.getContacts()){
+			assertTrue("test makeMeeting check contacts: ", jimJackIds.contains(i.getId()));
+		}
 	}
 	
 	@Test
-	public void testMakePasMeeting(){
+	public void testMakePastMeeting(){
 		String s = pm1.toString();
-		PastMeeting m = cm.makeMeeting(s);
+		//PastMeeting m = cm.makeMeeting(s);
 		assertEquals("test makeMeeting check id: ", pm1.getId(), m.getId());
 		assertEquals("test makeMeeting check calendar: ", pm1.getDate(), m.getDate());
 		assertEquals("test makeMeeting check contacts: ", pm1.getContacts(), m.getContacts());
