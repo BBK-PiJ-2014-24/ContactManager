@@ -51,7 +51,7 @@ public class MeetingImpl implements Meeting {
 	
 	@Override
 	public String toString(){
-		return ""+ id + ", " + date + ", " + contactSet ;
+		return ""+ id + "," + date + "," + contactSet ;
 	}
 	
 }
