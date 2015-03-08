@@ -309,7 +309,7 @@ public class ContactManagerTestExport {
 	
 		mMap = cm2.getMeetingMap();
 		assertEquals("testMeetingMap Size: ",idMeetingList.size(), mMap.size());
-		for(Meeting i:mMap.getKey()){
+		for(Integer i : mMap.keySet()){
 			assertTrue("testMeetingMap Content: ", idMeetingList.contains(i));
 		}
 	}
@@ -319,7 +319,7 @@ public class ContactManagerTestExport {
 		
 		cMap = cm2.getContactMap();
 		assertEquals("testContactMap Size: ", contactList.size(), cm2.getContactMapSize());
-		for(Integer i : cMap.getkey()){
+		for(Integer i : cMap.keySet()){
 			assertTrue("testContactMap Content: ", contactList.contains(i));
 		}
 	}
