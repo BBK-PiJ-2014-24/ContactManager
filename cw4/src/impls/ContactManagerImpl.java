@@ -47,7 +47,6 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	private Calendar cal = new GregorianCalendar();  // Set Up Calendar Format
 	private TimeZone tz = TimeZone.getTimeZone("Europe/London");
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
-	private DataStorage dataStorage;
 	private String fileName = "Contacts.txt";
 	
 	// Constructor
@@ -57,7 +56,6 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		today = cal.getTime();
 		meetingMap = new HashMap<Integer, Meeting>();   // Instant MeetingList and ContactSet
 		contactMap = new HashMap<Integer, Contact>();
-		dataStorage = new DataStorageImpl();
 		File file = new File(fileName);
 		if(file.exists())
 			loadContactsMeetings(); // Loads Contacts and Meetings stored on file (Contacts.txt)
@@ -78,14 +76,6 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	 */
 	public void resetToday(){
 		today = cal.getTime();
-	}
-	
-	/**
-	 * a Getter - Returns the DataStorage Object storing the Meeting and Contact Maps.
-	 * @return Returns the DataStorage Object storing the Meeting and Contact Maps.
-	 */
-	public DataStorage getDatStorage(){
-		return dataStorage;
 	}
 	
 	/**
@@ -420,7 +410,6 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 			
 			for(Contact i : contactMap.values()){
 				bw.write(i.toString() + "\n");
-				System.out.println( i.toString());
 			} // end loop
 			
 			for(Meeting i : meetingMap.values()){
