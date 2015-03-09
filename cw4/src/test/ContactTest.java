@@ -9,7 +9,11 @@ import org.junit.Test;
 public class ContactTest {
 
 	
-	// Test Constructor and Accessors
+	/**
+	 * Test Contact's Constructor, Accessor and toString() methods
+	 */
+	// Test Constructor, Accessors & toString()
+	// ----------------------------------------
 	@Test
 	public void test() {
 		
@@ -18,14 +22,14 @@ public class ContactTest {
 		assertEquals("getNotes Check: ", "He Likes A Drink", c.getNotes());
 		assertEquals("getID Check: ", 1234, c.getId());
 		
+		System.out.println(c.toString());
+		assertEquals("toString() Check: ", "1234, Harry, He Likes A Drink", c.toString());
+		
 		c.setName("Harriet");  
 		c.addNotes("Drinks White Wine");
 		assertEquals("setName() Check", c.getName(), "Harriet");
 		assertEquals("getName() Check", c.getNotes(), "Drinks White Wine");
-		
-		assertEquals("toString() Check: ", "1234,Harry,He Likes A Drink", c.toString());
-		
-		
+	
 	}
 
 }
