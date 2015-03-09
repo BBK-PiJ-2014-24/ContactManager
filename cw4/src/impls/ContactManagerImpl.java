@@ -521,7 +521,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		}
 		for(Contact i : contactMap.values()){
 			if(i.getName().equals(c.getName())){
-				if(i.getNotes().equals(c.getName())){
+				if(i.getNotes().equals(c.getNotes())){
 					return true;
 				} // end notes if
 			} // end name if
