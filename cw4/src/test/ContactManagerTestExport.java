@@ -138,7 +138,7 @@ public class ContactManagerTestExport {
 		 int id2 = cm.getLastIdUpdate();
 		 Contact c2 =  new ContactImpl(id2, "Jill","Likes White Wine");
 		 
-		 cm.addNewContact("Jill","Likes White Wine");
+		 cm.addNewContact("Jill","Likes Red Wine");
 		 int id3 = cm.getLastIdUpdate();
 		 Contact c3 =  new ContactImpl(id3, "Jill","Likes Red Wine");
 		 
@@ -191,18 +191,33 @@ public class ContactManagerTestExport {
 		 Set<Contact> guySet = 	new HashSet<Contact>();	
 		 Set<Contact> markSet = new HashSet<Contact>();	
 		 
+		 
 		harrySet.add(c1); 
-		harrySet.add(c2); // add Jill1 to harrySet
 		jill1Set.add(c2);
 		jill2Set.add(c3);
 		jackSet.add(c4);
-		jackSet.add(c5);  // add Jim to Jack set
 		jimSet.add(c5);
 		sophieSet.add(c6);
 		alanSet.add(c7);
 		guySet.add(c8);
 		markSet.add(c9);
-
+		
+		// Create Pair Sets for Meetings
+		// -----------------------------
+		
+		Set<Contact> harryJillSet = new HashSet<Contact>();  
+		Set<Contact> JimJackSet = new HashSet<Contact>();
+		 
+		 Contact c1Copy = c1;
+		 Contact c2Copy = c2;
+		 harryJillSet.add(c1Copy);
+		 harryJillSet.add(c2Copy);
+		 
+		 Contact c4Copy = c4;
+		 Contact c5Copy = c5;
+		 JimJackSet.add(c4Copy);
+		 JimJackSet.add(c5Copy);
+		 
 		// List of id's for jack set
 		// -------------------------
 		
@@ -217,7 +232,7 @@ public class ContactManagerTestExport {
 		// Create Meetings
 		// ---------------
 	
-		 cm.addNewPastMeeting(harrySet, calPast,"Meeting went well");
+		 cm.addNewPastMeeting(harrySet, calPast,"Meeting went well"); 
 		 int id1pm = cm.getLastIdUpdate();
 		 pm1 = new PastMeetingImpl(id1pm, harrySet, calPast,"Meeting went well");
 		 
@@ -267,6 +282,8 @@ public class ContactManagerTestExport {
 		 String notes = "Likes a Drink";
 		 cm.flush();
 		 cm2 = new ContactManagerImpl();
+		 mMap = cm2.getMeetingMap();
+		 cMap = cm2.getContactMap();
 	}
 	
 	@Test
@@ -293,8 +310,6 @@ public class ContactManagerTestExport {
 	public void testMakePastMeeting(){
 		String s = pm1.toString();
 		PastMeeting m = cm.makeMeeting(s);
-		System.out.println("+++ PM "  + s);
-		System.out.println("harryJillids" + harryJillIds.toString());
 		assertEquals("test makeMeeting check id: ", pm1.getId(), m.getId());
 		assertEquals("test makeMeeting check calendar: ", pm1.getDate(), m.getDate());
 		for(Contact i : m.getContacts()){
@@ -307,24 +322,19 @@ public class ContactManagerTestExport {
 	@Test
 	public void testMeetingExport(){
 	
-		mMap = cm2.getMeetingMap();
-		assertEquals("testMeetingMap Size: ",idMeetingList.size(), mMap.size());
+		assertEquals("testMeetingMap Size: ", cm.getMeetingMap().size(), mMap.size());
 		for(Integer i : mMap.keySet()){
-			assertTrue("testMeetingMap Content: ", idMeetingList.contains(i));
+			assertTrue("testMeetingMap Content: ", cm.getMeetingMap().containsKey(i));
 		}
 	}
 	
 	@Test
 	public void testContactExport(){
-		
-		cMap = cm2.getContactMap();
-		assertEquals("testContactMap Size: ", contactList.size(), cm2.getContactMapSize());
+	
+		assertEquals("testContactMap Size: ", cm.getContactMap().size(), cm2.getContactMapSize());
 		for(Integer i : cMap.keySet()){
-			assertTrue("testContactMap Content: ", contactList.contains(i));
+			assertTrue("testContactMap Content: ", cm.getContactMap().containsKey(i));
 		}
 	}
 	
-	
-
-
 }
