@@ -18,6 +18,9 @@ import java.util.HashSet;
 
 public class MeetingTest {
 
+	/**
+	 * Tests for Meeting's accessors for id, date, contact and toString() methods.
+	 */
 	@Test
 	public void test() {
 		
