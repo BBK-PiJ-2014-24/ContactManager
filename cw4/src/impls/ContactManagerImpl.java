@@ -1,8 +1,11 @@
 package impls;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -45,16 +48,17 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	private TimeZone tz = TimeZone.getTimeZone("Europe/London");
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
 	private DataStorage dataStorage;
+	private String fileName = "Contacts.txt";
 	
 	// Constructor
 	// -----------
 	public ContactManagerImpl(){
-		
 		cal.setTimeZone(tz);
 		today = cal.getTime();
 		meetingMap = new HashMap<Integer, Meeting>();   // Instant MeetingList and ContactSet
 		contactMap = new HashMap<Integer, Contact>();
 		dataStorage = new DataStorageImpl();
+		loadContactsMeetings(); // Loads Contacts and Meetings stored on file (Contacts.txt)
 	}
 	
 	
@@ -411,28 +415,11 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		}
 	} // end flush()
 		
-		
-		/*
-		dataStorage.setMeetingData(meetingMap);
-		dataStorage.setContactData(contactMap);
-		
-		try{
-			FileOutputStream fs = new FileOutputStream("Contacts.txt");
-			System.out.println("FileOutputStream");
-			ObjectOutputStream os = new ObjectOutputStream(fs);
-			System.out.println("ObjectOutputStream");
-			os.writeObject(dataStorage);
-			System.out.println("WRITE");
-			os.close();
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
-		*/
 	
 	/**
-	 * Instantiates a Contact Object From Arguments formatted in a String
-	 * @param strInput a String of Contact arguments (id,name,notes). String delimiter is ","
+	 * Retuens a Contact Object From Arguments formatted in a String. The method also adds the
+	 * Contact to the contactMap if it is not a copy. 
+	 * @param strInput a String of Contact arguments (id,name,notes). Note that the String delimiter is ","
 	 * @return a Contact Object with states specified in strInput 
 	 */
 	public Contact makeContact(String strInput){
@@ -452,14 +439,15 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return c;
 	}
 	/**
-	 * Instantiates a Future or PastMeeting Object from Arguments formatted in a String
-	 * @param strInput a String of Meeting arguments (id,date, contacts + optional notes). String delimiter is ","
+	 * Returns a Future or PastMeeting Object from Arguments formatted in a String. The Method also 
+	 * adds the Meeting to the meetingMap (the Map containing all the Meetings in ContactManager) 
+	 * if it is not a copy. 
+	 * @param strInput - a String of Meeting arguments (id,date, contacts + optional notes). 
+	 * Note that the String delimiter is ","
 	 * @return a Future or PastMeeting Object.
 	 */
 	public<T extends Meeting> T makeMeeting(String strInput){
-		
-		// id + "," + date + "," + contactSet 
-		
+	
 		String delim = ",";
 		StringTokenizer inputStream = new StringTokenizer(strInput, delim);
 		
@@ -510,10 +498,10 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 				meetingMap.put(id, fm);
 			return (T) fm;
 		}
-	}
+	}  // end makeMeeting
 	
 	/**
-	 * A private method that checks if  aContact is already in the ContactManager's contactMap 
+	 * A private method that checks if a Contact is already in the ContactManager's contactMap 
 	 * database by checking its id.
 	 * @param c Contact to be tested if it is in the ContactManager's contactMap database
 	 * @return return true if Contact c is a copy of an ContactManager's contactMap 
@@ -542,13 +530,62 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		return false;
 	}
 	
-	
+	/**
+	 * Loads the Contact and Meeting data from previous sessions run on ContactManager. This
+	 * Method is Called from the Constructor. 
+	 */
+	private void loadContactsMeetings(){
+		// Set UP File Reader
+		File file = new File("Contacts.txt");
+		BufferedReader br = null;
+		String delim = ",";
+		int idThreshold = 100000;  // The Highest Contact id number. Used to Identify whether we are 
+								   // reading in a Meeting or a Contact.	
+		
+		try{
+			FileReader fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			// WHILE(there is NEXT LINE)
+			String line;
+			while((line=br.readLine()) != null){
+				// READ LINE
+				StringTokenizer inputStream = new StringTokenizer(line, delim);
+				// Check the first token // Convert to int 
+				String tok1 = inputStream.nextToken();
+				int id = Integer.parseInt(tok1);
+				
+				if(id < idThreshold){
+					makeContact(line);  // Reading in Contact Data
+				}
+				else
+					makeMeeting(line);   // Reading in Meeting Data
+							
+			} // end while
+		} // end try
+		
+		catch(FileNotFoundException ex1){
+			System.out.println("Cannot Find File " + file.toString());
+			ex1.printStackTrace();
+		}
+		catch(IOException ex2){
+			System.out.println("Cannot OPen File " + file.toString());
+			ex2.printStackTrace();
+		}
+		
+		finally{
+			 try{
+				 br.close();
+			 }
+			 catch(IOException ex3){
+				 System.out.println("Cannot Close File " + file.toString());
+				 ex3.printStackTrace();
+			 }
+		}  // end finally				
+	}  // end uploadContactsMeetings()
 	
 
-
-
 	
-}
+} // end Class
 	
 	
 
