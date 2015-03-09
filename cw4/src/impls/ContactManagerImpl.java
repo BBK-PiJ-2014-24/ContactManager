@@ -514,6 +514,13 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		if(contactMap.containsKey(c.getId())){
 				return true;
 		}
+		for(Contact i : contactMap.values()){
+			if(i.getName().equals(c.getName())){
+				if(i.getNotes().equals(c.getName())){
+					return true;
+				} // end notes if
+			} // end name if
+		} // end loop
 		return false;	
 	}
 	
