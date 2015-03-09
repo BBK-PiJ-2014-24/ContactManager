@@ -237,9 +237,18 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 			}
 			Contact newContact = new ContactImpl(id, name, notes); 
 			isInMap = copyContact(newContact);
-			if(!isInMap){
+			if(!isInMap){						// Check if Contact is already in Map
 				contactMap.put(id, newContact);
-				lastIdUpdate = id;   // records the randomly generated ID
+				lastIdUpdate = id;   // records the generated ID for this new Contact (for testing)
+			}
+			else{ // If Contact is already in the Map what is the id?
+				for(Contact i : contactMap.values()){   
+					if(i.getName().equals(newContact.getName())){
+						if(i.getNotes().equals(newContact.getNotes())){
+							lastIdUpdate = i.getId();      
+						} // end notes if
+					} // end name if
+				} // end loop
 			}
 		}
 	}
@@ -253,6 +262,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	}
 
 	// getContacts(ids..)
+	// ------------------
 	@Override
 	public Set<Contact> getContacts(int... ids) {
 		
@@ -433,7 +443,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		
 	
 	/**
-	 * Retuens a Contact Object From Arguments formatted in a String. The method also adds the
+	 * Returns a Contact Object From Arguments formatted in a String. The method also adds the
 	 * Contact to the contactMap if it is not a copy. 
 	 * @param strInput a String of Contact arguments (id,name,notes). Note that the String delimiter is ","
 	 * @return a Contact Object with states specified in strInput 
