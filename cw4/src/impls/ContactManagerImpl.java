@@ -111,6 +111,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException {
 		
 			Date meetingDate = date.getTime();
+			boolean isInMap = false;
 		
 			if(meetingDate.after(today)){
 				int id = 0;
@@ -118,9 +119,13 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 					id = IdGenerator.generateID("meetingId");
 				}
 				FutureMeeting fm = new FutureMeetingImpl(id, contacts, date);
-				meetingMap.put(id, fm);
+				
+				isInMap = copyMeeting(fm);
+				if(!isInMap){
+					meetingMap.put(id, fm);
+				}
 				lastIdUpdate = id;  // recorded for testing purposes
-				return fm.getId();  // Dummy ID 
+				return fm.getId();  
 			}
 			else{
 				throw new IllegalArgumentException("Date Must Be In The Future");
@@ -150,8 +155,10 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	// -------------------
 	@Override
 	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) 
-	throws IllegalArgumentException, NullPointerException
-	{
+	throws IllegalArgumentException, NullPointerException {
+		
+		boolean isInMap = false;
+		
 		if(contacts == null){
 			throw new IllegalArgumentException("Contact Set Is Empty");
 		}
@@ -164,7 +171,10 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 				id = IdGenerator.generateID("meetingId");
 			}
 			PastMeeting pm = new PastMeetingImpl(id, contacts, date, text);
-			meetingMap.put(id, pm);
+			isInMap = copyMeeting(pm);
+			if(!isInMap){
+				meetingMap.put(id, pm);
+			}
 			lastIdUpdate = id;   // records the randomly generated ID 
 		}
 	} //end addNewPastMeeting
@@ -550,7 +560,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 					Set<Contact> mSet = m.getContacts();
 					for(Contact j : iSet){
 						if(mSet.contains(j))  // And SAME Contacts in Meeting
-							System.out.println("Meeting on " + m.getDate().getTime() + " with " 
+							System.out.println("Meeting on " + m.getDate().getTime() + " with Contacts" 
 									+ m.getContacts().toString() + " is already on Database" );
 							return true;
 					} // end Contact Search Loop
