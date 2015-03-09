@@ -212,7 +212,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	// addNewContact(name, notes)
 	@Override
 	public void addNewContact(String name, String notes) throws IllegalArgumentException {
-		
+		boolean isInMap = false;
 		if(name == null || name == ""){
 			throw new IllegalArgumentException("Invalid Name Entry");
 		}
@@ -225,8 +225,13 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 				id = IdGenerator.generateID("contactId");
 			}
 			Contact newContact = new ContactImpl(id, name, notes); 
-			contactMap.put(id, newContact);
-			lastIdUpdate = id;   // records the randomly generated ID 
+			isInMap = copyContact(newContact);
+			if(!isInMap){
+				contactMap.put(id, newContact);
+				lastIdUpdate = id;   // records the randomly generated ID
+			}
+			else
+				System.out.println("Contact " + newContact.getName() + " Is Already On File");
 		}
 	}
 	
@@ -504,7 +509,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	
 	/**
 	 * A private method that checks if a Contact is already in the ContactManager's contactMap 
-	 * database by checking its id.
+	 * database by checking whether its id or its Name & Notes are the same.
 	 * @param c Contact to be tested if it is in the ContactManager's contactMap database
 	 * @return return true if Contact c is a copy of an ContactManager's contactMap 
 	 * database otherwise false
