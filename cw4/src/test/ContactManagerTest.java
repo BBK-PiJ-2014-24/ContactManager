@@ -27,7 +27,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
+/**
+ * This Test Class is for testing the methods found in ContactManager.
+ * @author snewnham
+ *
+ */
 public class ContactManagerTest {
 
 	
@@ -171,14 +175,16 @@ public class ContactManagerTest {
 	public ExpectedException ex = ExpectedException.none();
 	
 	
-	
+	/**
+	 * This tests runs 10,000 simulations to check the uniqueness of the Meeting ids
+	 */
 	@Test
 	// Tests for addFutureMeeting()
 	// ----------------------------
 	public void testAddFutureMeeting() {
 		List<Integer> idContainer = new ArrayList<Integer>();  // Container for ID's in random Check
 		
-		for(int i=0; i<900;i++){  // Testing Range and Uniqueness of IDs
+		for(int i=0; i<100000;i++){  // Testing Range and Uniqueness of IDs
 			int id = cm.addFutureMeeting(contactSet, calFut);
 			
 			assertTrue("test addFutureMeeting() -  min id: ", id >= 1000000);	// test id min number
@@ -189,12 +195,19 @@ public class ContactManagerTest {
 		// System.out.println("The end");
 	}
 	
+	/** 
+	 * This tests if addFutureMeeting throws if given a Past Date
+	 */
 	@Test
 	public void testEXAddFutureMeeting(){
 		ex.expect(IllegalArgumentException.class);
 		cm.addFutureMeeting(contactSet, calPast);
 	}
 	
+	/**
+	 * Tests whether an added FutureMeeting to the Contact Manager is returned
+	 * with the correct id, Contacts and Calendar date.
+	 */
 	@Test
 	// Tests for getFutureMeeting(id)
 	// ------------------------------
@@ -206,12 +219,20 @@ public class ContactManagerTest {
 		assertEquals("test getFutureMeeting() - Meeting Date Check: ", futMeetGood.getDate(), cm.getFutureMeeting(id).getDate());
 	}
 	
+	/**
+	 * Tests whether getFutureMeeting() will return a null when given an invalid id. 
+	 */
 	@Test
 	public void testExGetFutureMeeting(){
 		int id = 1234;
 		assertEquals("test getFutureMeeting() - Check Bad id", null, cm.getMeeting(id));	
 	}
 	
+	
+	/**
+	 * Tests whether addNewPastMeeting() will thow IllegalArgumentException if the Contact argument
+	 * is empty.
+	 */
 	@Test
 	// Test for addNewPastMeeting()
 	// ----------------------------
@@ -220,17 +241,31 @@ public class ContactManagerTest {
 			cm.addNewPastMeeting(emptyContactSet, calPast, notes);  // test for emptyContactSet
 	}
 	
+	/**
+	 * Tests whether addNewPastMeeting() will throw NullPointerException if Calendar date
+	 * holds a future date.
+	 */
 	@Test
 	public void testExAddNewPastMeeting2(){
 			ex.expect(NullPointerException.class);
 			cm.addNewPastMeeting(contactSet, badDate, notes);  // test for BadDate
 	}
+	
+	/**
+	 * Tests whether addNewPastMeeting() will throw NullPointer Exception if Notes argument is 
+	 * null.
+	 */
 	@Test
 	public void testExAddNewPastMeeting3(){
 			ex.expect(NullPointerException.class);
 			cm.addNewPastMeeting(contactSet, calPast, badNotes);  // test for BadNotes
 	}
 	
+	
+	/**
+	 * Tests whether getPastMeeting() will retrieve the correct PastMeeting. Tests for id,
+	 * Contacts, Calendar date and Notes.
+	 */
 	@Test
 	// Test for getPastMeeting(id)
 	// ---------------------------
@@ -244,6 +279,9 @@ public class ContactManagerTest {
 		assertEquals("test getPastMeeting() - Meeting Notes Check: ", pastMeetGood.getNotes(), cm.getPastMeeting(id).getNotes());
 	}
 	
+	/**
+	 * Tests whether getPastMeeting() will return null, when given date argument
+	 */
 	@Test
 	public void testExGetNewPastMeeting1(){
 		cm.addNewPastMeeting(contactSet, calFut, notes);
@@ -251,12 +289,18 @@ public class ContactManagerTest {
 		assertEquals("test getPastMeeting() - Check Bad Date", null, cm.getPastMeeting(id));	
 	}
 	
+	/**
+	 * Tests whether getPastMeeting() will return null if given invalid id argument
+	 */
 	@Test
 	public void testExGetNewPastMeeting2(){
 		int id = 1234; 
 		assertEquals("test getPastMeeting() - Check Bad id", null, cm.getPastMeeting(id));	
 	}
 	
+	/**
+	 * Tests getMeeting() will correctly retrieve a FutureMeeting and a PastMeeting, given valid id's.
+	 */
 	@Test
 	// Test for getMeeting()
 	// ---------------------
@@ -275,13 +319,19 @@ public class ContactManagerTest {
 		assertEquals("test getMeeting() - PastMeeting Date Check: ", pastMeetGood.getDate(), cm.getPastMeeting(id).getDate());
 		assertEquals("test getMeeting() - PastMeeting Notes Check: ", pastMeetGood.getNotes(), cm.getPastMeeting(id).getNotes());	
 	}
+	
+	/** 
+	 * Tests whether getMeeting() will return null if given invalid id.
+	 */
 	@Test
 	public void testExGetMeeting1(){
 		int id = 1234;
 		assertEquals("test getMeeting() - Check Bad id", null, cm.getMeeting(id));	
 	}
 	
-	
+	/**
+	 * Tests whether addNewContact() adds a Contact to the ContactManager Map.
+	 */
 	@Test
 	// test addNewContact()
 	// --------------------
@@ -291,21 +341,35 @@ public class ContactManagerTest {
 		assertEquals("test Single addNewContact - Size of  : ", 1, cm.getContactMapSize());
 	}
 	
+	/**
+	 * Tests whether addNewContact() throws a NullPointerException if given an invalid "" notes.
+	 */
 	public void testExAddGetNewContact1(){
 		ex.expect(NullPointerException.class);
 		cm.addNewContact("Stefan", "");   // No Notes
 	}
 	
+	/**
+	 * Tests whether addNewContact() throws a NullPointerException if given an invalid notes that 
+	 * are null.
+	 */
 	public void testExAddGetNewContact2(){
 		ex.expect(NullPointerException.class);
 		cm.addNewContact("Stefan", null);   // null Notes
 	}	
 	
+	/**
+	 * Tests whether addNewContact() throws a NullPointerException if given an invalid name, "".
+	 */
 	public void testExAddGetNewContact3(){
 		ex.expect(NullPointerException.class);
 		cm.addNewContact("", "cub scout");   // No name
 	}
 	
+	/**
+	 * Tests whether addNewContact() throws a NullPointerException if given a name argument 
+	 * that is null.
+	 */
 	public void testExAddGetNewContact4(){
 		ex.expect(NullPointerException.class);
 		cm.addNewContact(null, "cub scout");   // No name
@@ -326,6 +390,9 @@ public class ContactManagerTest {
 		assertEquals("test getContacts() - single contact Notes", "Likes a Drink", contactArray[0].getNotes());
 	}
 	
+	/**
+	 * Tests whether getContacts(ids ..) correctly retrieves numerous Contacts (with correct states)
+	 */
 	@Test
 	// getContacts(ids ...);
 	public void testGetContacts2(){
@@ -366,6 +433,9 @@ public class ContactManagerTest {
 		}
 	}
 	
+	/**
+	 * Tests getContacts() throws an IllegalArgumentException if there is an invalid id argument.
+	 */
 	@Test
 	public void testExGetContacts(){ // TEST FOR INVALID ID
 		cm.addNewContact("Harry","Likes a Drink");  // Harry to be Found with this get method
@@ -379,6 +449,9 @@ public class ContactManagerTest {
 		cm.getContacts(id1,id2,id3,999);
 	}
 	
+	/**
+	 * Tests whether getContacts(String name) correctly retreives all Contacts with the same name.
+	 */
 	@Test
 	// getContacts(String name)
 	// ------------------------
@@ -528,14 +601,7 @@ public class ContactManagerTest {
 		 harrySophieSet = cm.getContacts(idHarry, idSophie);
 		
 		
-		 cm.addNewPastMeeting(jimJillSet, calPast,"Meeting went well");  // add BAD Past meeting to ContactManager
-		 cm.addFutureMeeting(jimJillSet, mar15);  // add Future meetings to ContactManager
-		 cm.addFutureMeeting(harrySophieSet, mar15);
-		 cm.addFutureMeeting(jimJillSet, apr15);
-		 cm.addFutureMeeting(jimJillSet, may15);
-		 cm.addFutureMeeting(jimJillSet, jun15);
-		 cm.addFutureMeeting(harrySophieSet, jun15);
-		 cm.addFutureMeeting(harrySophieSet, aug15);
+  
 		 
 		 List<Calendar> mar15MeetingList = new ArrayList<Calendar>();    // Create a Test List for Mar 15
 		 mar15MeetingList.add(mar15);
@@ -695,12 +761,12 @@ public class ContactManagerTest {
 		 
 		 
 		 
-		 Calendar aprFool = new GregorianCalendar(2014, 4, 1, 12, 05);
-		 Date ChangeToday = cm.ChangeTodayDate(aprFool).getTime();      // Change Today's Date for testing 
+		 Calendar aprFool = new GregorianCalendar(2015, 4, 1, 12, 05);
+		 cm.setTodayDate(aprFool);      // Change Today's Date for testing 
 		 cm.addMeetingNotes(meetingId, notes);
 		 PastMeeting pm = cm.getPastMeeting(meetingId);
-		 assertEquals("test addMeeting Notes - check FutureMeeting turn to Past: ", 
-				 pm.getClass().equals(PastMeeting.class));      	
+		 assertEquals("test addMeeting Notes - check FutureMeeting turn to Past: ", jimJillSet, pm.getContacts());  
+		 cm.resetToday();
 	}
 	
 	@Test   // test addMeeting Notes  - Check FutureMeeting Not In Contact Manager
@@ -775,7 +841,7 @@ public class ContactManagerTest {
 	}
 	
 	
-	@Test   // test addMeeting Notes  - Check FutureMeeting Notes Are Empty
+	@Test   // test addMeeting Notes  - Check FutureMeeting NOTES Are Empty
 	public void testEx3AddMeetingNotes(){
 		cm.addNewContact("Harry","Likes a Drink");   //add contacts to ContactManager & get IDs
 		 int idHarry = cm.getLastIdUpdate();
@@ -787,16 +853,14 @@ public class ContactManagerTest {
 		 cm.addNewContact("Jim", "BUSY MAN");
 		 int idJim = cm.getLastIdUpdate();
 		 cm.addNewContact("Sophie", "Angel");
-		 int idSophie = cm.getLastIdUpdate();
-		 
-		 
-		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
-		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+		 int idSophie = cm.getLastIdUpdate();		 
 		 
 		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
 		 harrySophieSet = cm.getContacts(idHarry, idSophie);
-		
 		 
+		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);
+			 
 		 cm.addFutureMeeting(jimJillSet, calFut);  // add Meetings to ContactManager
 		 cm.addFutureMeeting(jimJillSet, apr15);
 		 cm.addFutureMeeting(jimJillSet, may15);
@@ -805,7 +869,9 @@ public class ContactManagerTest {
 		 cm.addNewPastMeeting(harrySophieSet, jul14, "Meeting went well");
 		 cm.addNewPastMeeting(harrySophieSet, aug14, "Meeting went well");
 		 
-		ex.expect(IllegalArgumentException.class);
+		ex.expect(NullPointerException.class);
 		cm.addMeetingNotes(meetingId, nullNotes);
 	}
+	
+	
 }
