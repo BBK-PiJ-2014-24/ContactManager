@@ -495,7 +495,7 @@ public class ContactManagerTest {
 	 }
 	
 	 /**
-	  * 
+	  * Tests whether getFutureMeeting() returns the correct list of meetings and in the right order.
 	  */
 	@Test
 	// Test for getFutureMeetingList(Contact)
@@ -566,12 +566,19 @@ public class ContactManagerTest {
 		 
 	}
 	
+	/**
+	 * Tests whether if getFutureMeeting throws an IllegalArgumentExcpetion when given an
+	 * invalid name as an argument.
+	 */
 	@Test
 	public void testEXGetFutureMeetingContact(){
 		ex.expect(IllegalArgumentException.class);
 		cm.getFutureMeetingList(gertrude);
 	}
 	
+	/**
+	 * Tests whether getFutureMeeting(Calendar) returns the correct List of meetings for a given date.
+	 */
 	@Test
 	// getFutureMeetingList(Calendar)
 	// ------------------------------
@@ -588,14 +595,10 @@ public class ContactManagerTest {
 		 int idJim = cm.getLastIdUpdate();
 		 cm.addNewContact("Sophie", "Angel");
 		 int idSophie = cm.getLastIdUpdate();
-		 
-		 
+		  
 		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
 		 harrySophieSet = cm.getContacts(idHarry, idSophie);
-		
-		
-  
-		 
+			 
 		 List<Calendar> mar15MeetingList = new ArrayList<Calendar>();    // Create a Test List for Mar 15
 		 mar15MeetingList.add(mar15);
 		 mar15MeetingList.add(mar15);
@@ -603,13 +606,10 @@ public class ContactManagerTest {
 		 List<Calendar> jun15MeetingList = new ArrayList<Calendar>(); // Create a Test List for Jun 15
 		 jun15MeetingList.add(jun15);
 		 jun15MeetingList.add(jun15);
-		 
-		 
+		 	 
 		 List<Meeting> findMar15Meetings = cm.getFutureMeetingList(mar15);
 		 List<Meeting> findJun15Meetings = cm.getFutureMeetingList(jun15);
-		 
-		 
-		 
+		 	 
 		 for(Meeting i : findMar15Meetings){
 			 assertTrue("test getFutureMeeting(Calendar) for Mar15: ", mar15MeetingList.contains(i.getDate()));
 		 }
@@ -619,13 +619,20 @@ public class ContactManagerTest {
 		 }
 	}
 	
+	/**
+	 * Tests whether getFutureMeeting(Calendar) returns no meetings for an invalid date argument.
+	 */
 	@Test
 	public void testExgetFutureMeetingListContact(){
 		List<Meeting> noMeetings = cm.getFutureMeetingList(dudDate);
 		assertEquals("test getFutureMeeting(Calendar) for DudDate: ", 0, noMeetings.size() ); // Test for No Entries
 	}
-	// ££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££
 	
+	
+	/**
+	 * Tests whether a getPASTeMeetingList(Contact) returns the correct list of PastMeetings for a 
+	 * given contact (and ignores returning FutureMeetings)
+	 */
 	@Test
 	// Test for getPASTeMeetingList(Contact)
 	// --------------------------------------
@@ -679,25 +686,7 @@ public class ContactManagerTest {
 		 
 		 List<PastMeeting> findJimList = cm.getPastMeetingList(jim);
 		 List<PastMeeting> findHarryList = cm.getPastMeetingList(harry);
-		 
-/*		 
-		 Calendar cal;
-		 SimpleDateFormat myDateFormat = new SimpleDateFormat("dd/MM/yy hh:mm");
-		 for(int i=0; i<4; i++){
-			 cal = findJimList.get(i).getDate();
-			 myDateFormat.setCalendar(cal);
-			 String s = myDateFormat.format(cal.getTime());
-			 System.out.println("Jim Found " + s);
-		 }
-		 
-		 for(int i=0; i<4; i++){
-			 cal = jimMeetingList.get(i);
-			 myDateFormat.setCalendar(cal);
-			 String s = myDateFormat.format(cal.getTime());
-			 System.out.println("Jim Set " + s);
-		 }
-*/		 
-		 
+		 	 
 		 int k=0;
 		 for(Meeting i : findJimList){
 			 assertTrue("test getPastMeeting(Contact) for Jim: ", jimMeetingList.contains(i.getDate()));
@@ -712,12 +701,20 @@ public class ContactManagerTest {
 		 }
 	}
 	
+	/**
+	 * Tests whether getPASTeMeetingList(Contact) throws an IllegalArgumentException if given
+	 * an invalid Contact argument.
+	 */
 	@Test
 	public void testEXGetPastMeetingContact(){
 		ex.expect(IllegalArgumentException.class);
 		cm.getFutureMeetingList(gertrude);
 	}
-		
+	
+	/**
+	 * Tests whether addMeetingNotes(id, text) changes a FutureMeeting to a PastMeeting 
+	 * and append it with Notes.
+	 */
 	@Test
 	// addMeetingNotes(id, text)
 	// --------------------------
@@ -752,8 +749,6 @@ public class ContactManagerTest {
 		 cm.addNewPastMeeting(harrySophieSet, jul14, "Meeting went well");
 		 cm.addNewPastMeeting(harrySophieSet, aug14, "Meeting went well");
 		 
-		 
-		 
 		 Calendar aprFool = new GregorianCalendar(2015, 4, 1, 12, 05);
 		 cm.setTodayDate(aprFool);      // Change Today's Date for testing 
 		 cm.addMeetingNotes(meetingId, notes);
@@ -762,6 +757,11 @@ public class ContactManagerTest {
 		 cm.resetToday();
 	}
 	
+	
+	/**
+	 * Tests whether addMeetingNotes(id, text) rejects a FutureMeeting that is NOT on the
+	 * ContactManager's Meeting Map  by throwing an ILLegalArgumentException
+	 */
 	@Test   // test addMeeting Notes  - Check FutureMeeting Not In Contact Manager
 	public void testEx1AddMeetingNotes(){
 		cm.addNewContact("Harry","Likes a Drink");   //add contacts to ContactManager & get IDs
@@ -798,7 +798,10 @@ public class ContactManagerTest {
 		cm.addMeetingNotes(meetingId, notes);
 	}
 	
-	
+	/**
+	 * Tests whether addMeetingNotes(id, text) rejects FutureMeeting argument that is still 
+	 * in the future by throwing an IllegalArgumentException.
+	 */
 	@Test   // test addMeeting Notes  - Check FutureMeeting Is Still Not In The Future
 	public void testEx2AddMeetingNotes(){
 		cm.addNewContact("Harry","Likes a Drink");   //add contacts to ContactManager & get IDs
@@ -818,8 +821,7 @@ public class ContactManagerTest {
 		 harrySophieSet = cm.getContacts(idHarry, idSophie);
 		 
 		 jimJillSet = cm.getContacts(idJim, idJill1, idJill2);  // Create Contact Sets for meetings
-		 harrySophieSet = cm.getContacts(idHarry, idSophie);
-		
+		 harrySophieSet = cm.getContacts(idHarry, idSophie);		
 		 
 		 cm.addFutureMeeting(jimJillSet, calFut);  // add Meetings to ContactManager
 		 cm.addFutureMeeting(jimJillSet, apr15);
@@ -833,7 +835,10 @@ public class ContactManagerTest {
 		cm.addMeetingNotes(meetingId, notes);
 	}
 	
-	
+	/**
+	 * Tests whether addMeetingNotes(id, text) throws an IllegalArgumentException if
+	 * notes are null. 
+	 */
 	@Test   // test addMeeting Notes  - Check FutureMeeting NOTES Are Empty
 	public void testEx3AddMeetingNotes(){
 		cm.addNewContact("Harry","Likes a Drink");   //add contacts to ContactManager & get IDs
