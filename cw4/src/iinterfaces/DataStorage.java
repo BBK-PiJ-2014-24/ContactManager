@@ -1,13 +1,14 @@
 package iinterfaces;
 
+import java.io.Serializable;
 import java.util.Map;
-
+//DECOMISSIONED
 /**
  * An Interface for a container, containing the Meeting and Contact data found in a ContactManager Object
  * @author snewnham
  *
  */
-public interface DataStorage {
+public interface DataStorage extends Serializable {
 
 	/**
 	 * Getter for Obtaining Meeting Data
