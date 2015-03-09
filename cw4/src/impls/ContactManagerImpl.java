@@ -58,7 +58,9 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		meetingMap = new HashMap<Integer, Meeting>();   // Instant MeetingList and ContactSet
 		contactMap = new HashMap<Integer, Contact>();
 		dataStorage = new DataStorageImpl();
-		loadContactsMeetings(); // Loads Contacts and Meetings stored on file (Contacts.txt)
+		File file = new File(fileName);
+		if(file.exists())
+			loadContactsMeetings(); // Loads Contacts and Meetings stored on file (Contacts.txt)
 	}
 	
 	
