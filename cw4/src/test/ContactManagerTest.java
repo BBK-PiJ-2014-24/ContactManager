@@ -129,8 +129,8 @@ public class ContactManagerTest {
 		 mark = new ContactImpl("Mark", "Shifty");
 		 
 		
-		// Create Set of Contacts
-		// ----------------------
+		// Create SubSet of Contacts
+		// --------------------------
 		contactSet = new HashSet<Contact>();
 		contactSet.add(harry);
 		contactSet.add(jill);
@@ -184,7 +184,7 @@ public class ContactManagerTest {
 	public void testAddFutureMeeting() {
 		List<Integer> idContainer = new ArrayList<Integer>();  // Container for ID's in random Check
 		
-		for(int i=0; i<100000;i++){  // Testing Range and Uniqueness of IDs
+		for(int i=0; i<100;i++){  // Testing Range and Uniqueness of IDs
 			int id = cm.addFutureMeeting(contactSet, calFut);
 			
 			assertTrue("test addFutureMeeting() -  min id: ", id >= 1000000);	// test id min number
@@ -336,9 +336,10 @@ public class ContactManagerTest {
 	// test addNewContact()
 	// --------------------
 	public void testAddGetNewContact(){
+		int contactSize = cm.getContactMapSize();  // size of contact Map before addition
 		Contact Stefan = new ContactImpl("Stefan", "cub scout");
 		cm.addNewContact("Stefan", "cub scout");
-		assertEquals("test Single addNewContact - Size of  : ", 1, cm.getContactMapSize());
+		assertEquals("test Single addNewContact - Size of  : ", (contactSize+1), cm.getContactMapSize());
 	}
 	
 	/**
@@ -375,6 +376,11 @@ public class ContactManagerTest {
 		cm.addNewContact(null, "cub scout");   // No name
 	}	
 	
+	
+	/**
+	 * Tests addNewContact() adds a Contact with correct field states.
+	 * 
+	 */
 	@Test
 	// test getContacts()
 	// ---------------------
@@ -478,14 +484,19 @@ public class ContactManagerTest {
 			assertTrue("testGetContacts - Same Names", names.contains(i.getName()));
 		 }
 	}
-	
+	/**
+	 * Tests getContacts(Name) throws an IllegalArgumentExecution if the Name argument is null.
+	 */
 	 @Test
 	 public void testExGetContactsNames(){
 		 ex.expect(IllegalArgumentException.class);
 		 String s = null;
 		 cm.getContacts(s);
 	 }
-	 		
+	
+	 /**
+	  * 
+	  */
 	@Test
 	// Test for getFutureMeetingList(Contact)
 	// --------------------------------------
@@ -539,25 +550,7 @@ public class ContactManagerTest {
 		 
 		 List<Meeting> findJimList = cm.getFutureMeetingList(jim);
 		 List<Meeting> findHarryList = cm.getFutureMeetingList(harry);
-		 
-		 /*
-		 Calendar cal;
-		 SimpleDateFormat myDateFormat = new SimpleDateFormat("dd/MM/yy hh:mm");
-		 for(int i=0; i<4; i++){
-			 cal = findJimList.get(i).getDate();
-			 myDateFormat.setCalendar(cal);
-			 String s = myDateFormat.format(cal.getTime());
-			 System.out.println("Jim Found " + s);
-		 }
-		 
-		 for(int i=0; i<4; i++){
-			 cal = jimMeetingList.get(i);
-			 myDateFormat.setCalendar(cal);
-			 String s = myDateFormat.format(cal.getTime());
-			 System.out.println("Jim Set " + s);
-		 }
-		 */
-		 
+		 		 
 		 int k=0;
 		 for(Meeting i : findJimList){
 			 assertTrue("test getFutureMeeting(Contact) for Jim: ", jimMeetingList.contains(i.getDate()));
