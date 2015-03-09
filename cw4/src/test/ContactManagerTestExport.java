@@ -23,9 +23,13 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 /**
- * Tests for the I/O of the contact and meeting Maps using ContactManager method flush(). 
- * Meetings and Contacts are built in ContactManager cm, then flushed. A new ContactManager will
- * be instantiated and its contact and meeting maps will tested in those found in cm.
+ * Tests for the I/O from the file "Contacts.txt". The contact and meeting Maps found in ContactManager 
+ * are exported to "Contacts.txt" with the method flush() and imported with loadContactsMeetings(). 
+ * In this Test Class, Meetings and Contacts are built in ContactManager cm, then flushed. A new 
+ * ContactManager, cm2, is instantiated and its contact and meeting maps will be compared with those in cm.
+ * 
+ * Note that preliminary tests, testMakeContact(), testMakeFutureMeeting() and testMakePastMeeting(), are 
+ * run to test whether a Contact and a Meeting Can Be Created From a String. 
  * @author snewnham
  *
  */
@@ -34,9 +38,7 @@ public class ContactManagerTestExport {
 	// Declarations
 	// ------------
 	Calendar calPast;
-	Calendar dudDate;
 	Calendar calFut;
-	Calendar badDate;
 	Calendar mar14;
 	Calendar apr14;
 	Calendar may14;
@@ -60,11 +62,8 @@ public class ContactManagerTestExport {
 	Contact alan;
 	Contact guy;
 	Contact mark;
-	Set<Contact> contactSet;
-	Set<Contact> emptyContactSet;
 	Set<Contact>jimJillSet;
 	Set<Contact>harrySophieSet;
-	Set<Contact> fullContactSet;
 	
 	List<Calendar> jimMeetingList;
 	List<Calendar> harryMeetingList;
@@ -82,10 +81,6 @@ public class ContactManagerTestExport {
 	FutureMeeting meetingAug15;
 	
 	String notes;
-	String badNotes;
-	String nullNotes;
-	
-	DataStorage ds;
 	ContactManagerImpl cm;
 	ContactManagerImpl cm2;
 	
@@ -105,7 +100,7 @@ public class ContactManagerTestExport {
 		calPast = new GregorianCalendar(2014, 8, 24, 12, 05);
 		calFut = new GregorianCalendar(2018, 11, 25, 16, 37);
 		sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-		badDate = null;
+		
 		mar14 = new GregorianCalendar(2014, 3, 23, 12, 05);
 		apr14 = new GregorianCalendar(2014, 4, 23, 12, 05);
 		may14 = new GregorianCalendar(2014, 5, 23, 12, 05);
@@ -119,13 +114,11 @@ public class ContactManagerTestExport {
 		jun15 = new GregorianCalendar(2015, 6, 23, 12, 05);
 		jul15 = new GregorianCalendar(2015, 7, 23, 12, 05);
 		aug15 = new GregorianCalendar(2015, 8, 23, 12, 05);
-		dudDate = new GregorianCalendar(2022, 8, 23, 12, 05);
 		
 		// ContactManager
 		// --------------
 		
 		cm = new ContactManagerImpl();
-		ds = cm.getDatStorage();
 				
 		// Create Contacts
 		// ------------
@@ -166,18 +159,7 @@ public class ContactManagerTestExport {
 		 int id9 = cm.getLastIdUpdate();
 		 Contact c9 =  new ContactImpl(id9, "Mark", "Shifty");	 
 
-		 contactList = new ArrayList<Contact>();    // Stored for testing
-		 contactList.add(c1);
-		 contactList.add(c2);
-		 contactList.add(c3);
-		 contactList.add(c4);
-		 contactList.add(c5);
-		 contactList.add(c6);
-		 contactList.add(c7);
-		 contactList.add(c8);
-		 contactList.add(c9);
-		 
-		 
+	 		 
 			// Create Individual SubSets of Contacts
 			// --------------------------------------
 				 
@@ -236,49 +218,18 @@ public class ContactManagerTestExport {
 		 int id1pm = cm.getLastIdUpdate();
 		 pm1 = new PastMeetingImpl(id1pm, harrySet, calPast,"Meeting went well");
 		 
-		 cm.addFutureMeeting(jill1Set , mar15);
-		 int id1m = cm.getLastIdUpdate();
-		 fm1 = new FutureMeetingImpl(id1m,jill1Set , mar15);
-		 
-		 cm.addFutureMeeting(jill2Set, mar15);
-		 int id2m = cm.getLastIdUpdate();
-		 FutureMeeting fm2 = new FutureMeetingImpl(id2m,jill2Set, mar15);
-		 
+		 cm.addFutureMeeting(jill1Set , mar15);		 
+		 cm.addFutureMeeting(jill2Set, mar15);		 
 		 cm.addFutureMeeting(jackSet, apr15);
 		 int id3m = cm.getLastIdUpdate();
 		 fm3 = new FutureMeetingImpl(id3m, jackSet, apr15);
 		 
-		 cm.addFutureMeeting(jimSet, may15);
-		 int id4m = cm.getLastIdUpdate();
-		 FutureMeeting fm4 = new FutureMeetingImpl(id4m, jimSet, may15);
-		 
-		 cm.addFutureMeeting(sophieSet, jun15);
-		 int id5m = cm.getLastIdUpdate();
-		 FutureMeeting fm5 = new FutureMeetingImpl(id5m, sophieSet, jun15);
-		 
-		 cm.addFutureMeeting(alanSet, jun15);
-		 int id6m = cm.getLastIdUpdate();
-		 FutureMeeting fm6 = new FutureMeetingImpl(id6m, alanSet, jun15);
-		 
+		 cm.addFutureMeeting(jimSet, may15);		 
+		 cm.addFutureMeeting(sophieSet, jun15);	 
+		 cm.addFutureMeeting(alanSet, jun15);		 
 		 cm.addFutureMeeting(guySet, jun15);
-		 int id7m = cm.getLastIdUpdate();
-		 FutureMeeting fm7 = new FutureMeetingImpl(id7m, guySet, jun15);
-		 
 		 cm.addFutureMeeting(markSet, aug15);
-		 int id8m = cm.getLastIdUpdate();
-		 FutureMeeting fm8 = new FutureMeetingImpl(id8m, markSet, aug15);
 
-		 idMeetingList = new ArrayList<Meeting>(); // Stored for testing
-		 idMeetingList.add(pm1);
-		 idMeetingList.add(fm1);
-		 idMeetingList.add(fm2);
-		 idMeetingList.add(fm3);
-		 idMeetingList.add(fm4);
-		 idMeetingList.add(fm5);
-		 idMeetingList.add(fm6);
-		 idMeetingList.add(fm7);
-		 idMeetingList.add(fm8);
-		 
 		 String notes = "Likes a Drink";
 		 cm.flush();
 		 cm2 = new ContactManagerImpl();
@@ -286,6 +237,9 @@ public class ContactManagerTestExport {
 		 cMap = cm2.getContactMap();
 	}
 	
+	/**
+	 * Tests whether makeContact() can create a Contact from a String
+	 */
 	@Test
 	public void testMakeContact(){
 		String s = "1234,Harry,Likes a Drink";
@@ -295,6 +249,9 @@ public class ContactManagerTestExport {
 		assertEquals("test makeContact check notes: ", "Likes a Drink", c.getNotes());
 	}
 	
+	/**
+	 * Tests whether makeMeeting() can create a FutureMeeting from a String
+	 */
 	@Test
 	public void testMakeFutureMeeting(){
 		String s = fm3.toString();
@@ -306,6 +263,9 @@ public class ContactManagerTestExport {
 		}
 	}
 	
+	/**
+	 * Tests whether makeMeeting() can create a PastMeeting from a String
+	 */
 	@Test
 	public void testMakePastMeeting(){
 		String s = pm1.toString();
@@ -318,19 +278,22 @@ public class ContactManagerTestExport {
 		assertEquals("test makeMeeting check notes: ", pm1.getNotes(), m.getNotes());
 	}
 	
-	
+	/**
+	 * tests whether a Map<Integer id, Meeting m> can be created from file, "Contacts.txt"
+	 */
 	@Test
 	public void testMeetingExport(){
-	
 		assertEquals("testMeetingMap Size: ", cm.getMeetingMap().size(), mMap.size());
 		for(Integer i : mMap.keySet()){
 			assertTrue("testMeetingMap Content: ", cm.getMeetingMap().containsKey(i));
 		}
 	}
 	
+	/**
+	 * tests whether a Map<Integer id, Contact c> can be created from file, "Contacts.txt"
+	 */
 	@Test
 	public void testContactExport(){
-	
 		assertEquals("testContactMap Size: ", cm.getContactMap().size(), cm2.getContactMapSize());
 		for(Integer i : cMap.keySet()){
 			assertTrue("testContactMap Content: ", cm.getContactMap().containsKey(i));
