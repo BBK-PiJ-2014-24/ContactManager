@@ -7,6 +7,9 @@ import org.junit.Test;
 
 public class IdGeneratorTest {
 
+	/**
+	 * TEST THAT contactID is bounded between 10,000-100,000
+	 */
 	@Test
 	public void testContactID() {
 		String c = "contactId";
@@ -19,7 +22,9 @@ public class IdGeneratorTest {
 		}
 	}
 	
-	
+	/**
+	 * * TEST THAT meetingID is bounded between 1,000,000-10,000,000
+	 */
 	public void testMeetingID() {
 		String m = "meetingId";
 		int min = 100000;
