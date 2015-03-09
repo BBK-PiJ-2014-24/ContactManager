@@ -517,11 +517,13 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	private boolean copyContact(Contact c){
 		
 		if(contactMap.containsKey(c.getId())){
-				return true;
+			System.out.println("Contact ID Already In The Contact's Database");	
+			return true;
 		}
 		for(Contact i : contactMap.values()){
 			if(i.getName().equals(c.getName())){
 				if(i.getNotes().equals(c.getNotes())){
+					System.out.println("Contact " + c.getName() + " with the same Notes is already on the Contact Database");
 					return true;
 				} // end notes if
 			} // end name if
