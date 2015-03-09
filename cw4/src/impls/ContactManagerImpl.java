@@ -210,6 +210,7 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	}
 
 	// addNewContact(name, notes)
+	// --------------------------
 	@Override
 	public void addNewContact(String name, String notes) throws IllegalArgumentException {
 		boolean isInMap = false;
@@ -230,8 +231,6 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 				contactMap.put(id, newContact);
 				lastIdUpdate = id;   // records the randomly generated ID
 			}
-			else
-				System.out.println("Contact " + newContact.getName() + " Is Already On File");
 		}
 	}
 	
@@ -543,6 +542,22 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 		if(meetingMap.containsKey(m.getId())){
 			return true;
 		}
+		
+		for(Meeting i : meetingMap.values()){
+			if(i.getDate().getTime().equals(m.getDate().getTime())){  // if Meeting has same date as Meeting in Database
+				if(i.getContacts().size() == (m.getContacts().size())){ // And if have same Number of Contacts
+					Set<Contact> iSet = i.getContacts();
+					Set<Contact> mSet = m.getContacts();
+					for(Contact j : iSet){
+						if(mSet.contains(j))  // And SAME Contacts in Meeting
+							System.out.println("Meeting on " + m.getDate().getTime() + " with " 
+									+ m.getContacts().toString() + " is already on Database" );
+							return true;
+					} // end Contact Search Loop
+				} // end IF for Contact Set Size 
+			} // end date if
+		}// end outer loop
+		
 		return false;
 	}
 	
