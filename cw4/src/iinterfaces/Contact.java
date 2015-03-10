@@ -1,5 +1,7 @@
 package iinterfaces;
 
+
+
 /**
 * A contact is a person we are making business with or may do in the future. *
 * Contacts have an ID (unique), a name (probably unique, but maybe
@@ -22,5 +24,5 @@ String getNotes();
 /**
 * Add notes about the contact. *
 * @param note the notes to be added */
-//void addNotes(String note); 
+void addNotes(String note); 
 }
