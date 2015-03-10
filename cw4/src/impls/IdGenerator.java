@@ -12,8 +12,7 @@ public class IdGenerator {
 	 * @param idType Determines the type of ID - "contactID" or "meetingID"
 	 * @return a randomly generated ID number
 	 * @author snewnham
-	 */
-	
+	 */	
 	public static int generateID(String idType){
 		
 		int scalar = 0;
