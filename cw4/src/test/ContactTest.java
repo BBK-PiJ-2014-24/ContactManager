@@ -17,13 +17,13 @@ public class ContactTest {
 	@Test
 	public void test() {
 		
-		ContactImpl c = new ContactImpl(1234, "Harry", "He Likes A Drink");
-		assertEquals("getName Check: ", "Harry", c.getName());
+		ContactImpl c = new ContactImpl(12345, "Harris", "He Likes A Drink");
+		assertEquals("getName Check: ", "Harris", c.getName());
 		assertEquals("getNotes Check: ", "He Likes A Drink", c.getNotes());
-		assertEquals("getID Check: ", 1234, c.getId());
+		assertEquals("getID Check: ", 12345, c.getId());
 		
 		System.out.println(c.toString());
-		assertEquals("toString() Check: ", "1234, Harry, He Likes A Drink", c.toString());
+		assertEquals("toString() Check: ", "12345,Harris,He Likes A Drink", c.toString());
 		
 		c.setName("Harriet");  
 		c.addNotes("Drinks White Wine");
