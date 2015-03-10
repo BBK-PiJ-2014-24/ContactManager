@@ -53,7 +53,8 @@ public class ContactManagerImpl extends Exception implements ContactManager {
 	// -----------
 	public ContactManagerImpl(){
 		cal.setTimeZone(tz);
-		today = cal.getTime();
+		Calendar mar15 = new GregorianCalendar(2015, 2, 10, 12, 05);
+		today = mar15.getTime();
 		meetingMap = new HashMap<Integer, Meeting>();   // Instant MeetingList and ContactSet
 		contactMap = new HashMap<Integer, Contact>();
 		File file = new File(fileName);
