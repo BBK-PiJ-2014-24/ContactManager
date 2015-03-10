@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.TimeZone;
 
 
 public class MeetingTest {
@@ -27,8 +28,11 @@ public class MeetingTest {
 		// Set Date()
 		// ----------
 		Calendar cal = new GregorianCalendar(2014, 8, 24, 12, 05);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-		//System.out.println("Check Date: " + sdf.format(cal.getTime()));		
+		TimeZone tz = TimeZone.getTimeZone("Europe/London");
+		cal.setTimeZone(tz);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
+		String dateString = sdf.format(cal.getTime());
+	
 		
 		// Set Contacts
 		// ------------
@@ -52,8 +56,9 @@ public class MeetingTest {
 		assertEquals("getID() Check: ", 1234, m.getId());
 		assertEquals("getDate() Check: ", cal, m.getDate());
 		assertEquals("getContacts() Check: ", ContactSet, m.getContacts());
-		
-		assertEquals("toString() check: ", "1234" + ", " + cal + ", " + ContactSet.toString(), 
+		System.out.println("expect" + cal.getTime());
+		System.out.println("actual" + m.toString());
+		assertEquals("toString() check: ", "1234" + "," + dateString + "," + ContactSet.toString(), 
 				      m.toString());
 		
 		
