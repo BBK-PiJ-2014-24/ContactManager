@@ -1,4 +1,4 @@
-// FINAL
+
 package impls;
 
 import java.io.BufferedReader;
@@ -36,7 +36,33 @@ import iinterfaces.Meeting;
 import iinterfaces.MeetingList;
 import iinterfaces.PastMeeting;
 
-
+/**
+ * An implementation of the ContactManager Interface. 
+ * 
+ * Note on Fields
+ * --------------
+ * contactMap - Map of Contacts with id as key, Contact as values Contact<id, Contact>
+ * meetingMap - Map of Meetings with id as key, Meeting as values Map<id, Meeting>
+ * lastIdUpdate - variable used to store last ID creation (Either Contact or Meeting). Used for Testing 
+ * 
+ * Additional Methods Used in Implementation
+ * -----------------------------------------
+ * 
+ * setTodayDate() - A Setter. Used to Change Today's Date for testing purposes
+ * resetToday() - A Setter. Used to Reset to Today's Date to Today.
+ * getMeetingMap() - A Getter. Returns meetingMap
+ * getContactMap() - A Getter. Returns contactMap
+ * getLastIdUpdate() - A Getter. Returns lastIdUpdate
+ * getContactMapSize() - A Getter. Returns Number of Contacts in contactMap.
+ * makeContact() - Recreates a Contact Object From A String. For Recalling From a txt File.
+ * makeMeeting() - Recreates a Meeting Object From a String. For Recalling From a tst File.
+ * copyContact() - Checks for any duplicates of a Contact before putting it in the contactMap
+ * copyMeeting() - Checks for any duplicates of a Meeting before putting it in the meetingMap.
+ * loadContactsMeetings() - Loads the Contacts and Meetings From a txt file.
+ * 
+ * @author snewnham
+ * @version FINAL
+ */
 public class ContactManagerImpl extends Exception implements ContactManager {
 	
 	// Fields
