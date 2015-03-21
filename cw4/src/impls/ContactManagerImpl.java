@@ -60,6 +60,10 @@ import iinterfaces.PastMeeting;
  * copyMeeting() - Checks for any duplicates of a Meeting before putting it in the meetingMap.
  * loadContactsMeetings() - Loads the Contacts and Meetings From a txt file.
  * 
+ * Classes That ContactManager is Dependent on
+ * -------------------------------------------
+ * IdGenerator - Object That Creates IDs for Contacts and Meetings
+ * 
  * @author snewnham
  * @version FINAL
  */
